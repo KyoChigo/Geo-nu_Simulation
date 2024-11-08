@@ -5,11 +5,12 @@ cor = Geology.Lithosphere.Model.Correlation.(Name_Layer).Thickness;
 %%% 开始计算厚度
 uncertainty = 0.12;
 parfor ii1 = 1 : length(Geology.Lithosphere.Model.GeoPhys.latlon)
-    mean = layer_data.depth(ii1);
-    error = uncertainty * mean;
-    depth(ii1, :) = Generate_Random_Normal(mean, error, 0, cor);
+    mean = layer_data.depth(ii1); % Unit: m
+    error = uncertainty * mean; % Unit: m
+    depth(ii1, :) = Generate_Random_Normal(mean, error, 0, cor); % Unit: m
 end
 %%% 小于零的项归零
-    depth(depth < 0) = 0;
-    Computation.Lithosphere.(Name_Layer).Depth = depth;
+depth(depth < 0) = 0;
+Computation.Lithosphere.(Name_Layer).Depth = depth; % Unit: m
+
 end

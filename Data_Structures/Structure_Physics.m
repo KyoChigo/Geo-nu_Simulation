@@ -86,20 +86,20 @@ Physics.Elements.Spectrum.Total_Number.Th232 = 'Load_Geonu_Specturm()';
 Physics.Elements.Spectrum.Total_Number.K40 = 'Load_Geonu_Specturm()';
 %%% %%% Elements.Heat_Power %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % From S. T. Dye: https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2012RG000400
+Physics.Elements.Heat_Power.U = 98.5 * 1e-6; % Unit: W/kg. Calculate by i abundance
 Physics.Elements.Heat_Power.U238 = 95.13 * 1e-6; % Unit: W/kg
 Physics.Elements.Heat_Power.U235 = 568.47 * 1e-6; % Unit: W/kg
-Physics.Elements.Heat_Power.U = 98.5 * 1e-6; % Unit: W/kg. Calculate by i abundance
 Physics.Elements.Heat_Power.Th232 = 26.28 * 1e-6; % Unit: W/kg
-Physics.Elements.Heat_Power.K40 = 28.47 * 1e-6; % Unit: W/kg
 Physics.Elements.Heat_Power.K = 3.33 * 1e-3 * 1e-6; % Unit: W/kg. Calculate by mole abundance
+Physics.Elements.Heat_Power.K40 = 28.47 * 1e-6; % Unit: W/kg
 %%% %%% Elements.Geonu_Flux %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % From S. T. Dye: https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2012RG000400
+Physics.Elements.Geonu_Flux.U = 74.6 * 1e6; % Unit: 1/(s kg). Calculate by mole abundance
 Physics.Elements.Geonu_Flux.U238 = 74.6 * 1e6; % Unit: 1/(s kg)
 Physics.Elements.Geonu_Flux.U235 = 319.9 * 1e6; % Unit: 1/(s kg)
-Physics.Elements.Geonu_Flux.U = 74.6 * 1e6; % Unit: 1/(s kg). Calculate by mole abundance
 Physics.Elements.Geonu_Flux.Th232 = 16.2 * 1e6; % Unit: 1/(s kg)
-Physics.Elements.Geonu_Flux.K40 = 231.2 * 1e6; % Unit: 1/(s kg)
 Physics.Elements.Geonu_Flux.K = 27.1 * 1e-3 * 1e6; % Unit: 1/(s kg). Calculate by mole abundance
+Physics.Elements.Geonu_Flux.K40 = 231.2 * 1e6; % Unit: 1/(s kg)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

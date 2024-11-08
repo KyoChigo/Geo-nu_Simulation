@@ -11,11 +11,10 @@ Computation.Run_Info.Method.Deep_Crust = 'Fill_Computation()';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 layers = {'UC', 'MC', 'LC', 'LM', 's1', 's2', 's3'};
-abundance_fields = {'U', 'Th', 'K'};
-mass_fields = {'Total', 'U238', 'U235', 'Th232', 'K40', 'K'};
-geonu_flux_fields = {'Total', 'U238', 'Th232', 'K40'};
-geonu_signal_fields = {'Total', 'U238', 'Th232'};
-heat_power_fields = {'Total', 'U238', 'U235', 'U', 'Th232', 'K40', 'K'};
+abundance_fields = {'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+mass_fields = {'Total', 'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+geonu_flux_fields = {'Total', 'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+heat_power_fields = {'Total', 'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
 
 for ii1 = 1:length(layers)
     layer = layers{ii1};
@@ -49,11 +48,6 @@ for ii1 = 1:length(layers)
         field = geonu_flux_fields{ii2};
         Computation.Lithosphere.(layer).Geonu_Flux.(field) = 'later';
     end % ii2 loop of geonu flux
-%%% Geonu_Signal of layers
-    for ii2 = 1 : length(geonu_signal_fields)
-        field = geonu_signal_fields{ii2};
-        Computation.Lithosphere.(layer).Geonu_Signal.(field) = 'later';
-    end % ii2 loop of geonu signal
 %%% Heat Power of layers
     for ii2 = 1 : length(heat_power_fields)
         field = heat_power_fields{ii2};
@@ -64,8 +58,49 @@ clear layers abundance_fields mass_fields geonu_flux_fields geonu_signal_fields 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%% Mantle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Computation.Mantle = 0;
+abundance_fields = {'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+mass_fields = {'Total', 'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+geonu_flux_fields = {'Total', 'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+heat_power_fields = {'Total', 'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+%%% Abundance of mantle
+for ii1 = 1 : length(abundance_fields)
+    field = abundance_fields{ii1};
+    Computation.Mantle.Abundance.Depleted.(field) = 'later';
+    Computation.Mantle.Abundance.Enriched.(field) = 'later';
+end
+%%% Mass of mantle
+for ii1 = 1 : length(mass_fields)
+    field = mass_fields{ii1};
+    Computation.Mantle.Mass.Depleted.(field) = 'later';
+    Computation.Mantle.Mass.Enriched.(field) = 'later';
+end
+%%% Geonu Flux of mantle
+for ii1 = 1 : length(geonu_flux_fields)
+    field = geonu_flux_fields{ii1};
+    Computation.Mantle.Geonu_Flux.Depleted.(field) = 'later';
+    Computation.Mantle.Geonu_Flux.Enriched.(field) = 'later';
+end
+%%% Heat Power of mantle
+for ii1 = 1 : length(heat_power_fields)
+    field = heat_power_fields{ii1};
+    Computation.Mantle.Heat_Power.Depleted.(field) = 'later';
+    Computation.Mantle.Heat_Power.Enriched.(field) = 'later';
+end
+clear abundance_fields geonu_flux_fields heat_power_fields mass_fields;
+clear field;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%% BSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Computation.BSE = 0;
+Computation.BSE.Mass = 0;
+abundance_fields = {'U', 'U238', 'U235', 'Th232', 'K', 'K40'};
+for ii1 = 1 : length(abundance_fields)
+    field = abundance_fields{ii1};
+    Computation.BSE.Abundance.(field) = 'later';
+end
+clear abundance_fields ii1;
+clear field;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% Other %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Computation.Other.Earth.Mass = 0;
+Computation.Other.Core.Mass = 0;
