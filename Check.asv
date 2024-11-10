@@ -1,0 +1,44 @@
+%%%%%%%%%%%% Sediment %%%%%%%%%%%%%%%%%
+%%% Mass %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+data = load("./s1.mat");
+total_mass = data.s1.Mass;
+U_mass = sum(total_mass .* data.s1.Abundance.U, 1)';
+Th_mass = sum(total_mass .* data.s1.Abudance.Th, 1)';
+K_mass = sum(total_mass .* data.s1.Abundance.K, 1)';
+Total_
+clear total_mass data;
+data = load('./s2.mat');
+total_mass = data.s2.Mass;
+s2.Mass.U = sum(total_mass .* data.s2.Abundance.U, 1);
+s2.Mass.Th = sum(total_mass .* data.s2.Abundance.Th, 1);
+s2.Mass.K = sum(total_mass .* data.s2.Abundance.K, 1);
+s2.Mass.Total = sum(total_mass, 1);
+clear total_mass data;
+data = load('./s3.mat');
+total_mass = data.s3.Mass;
+s3.Mass.U = sum(total_mass .* data.s3.Abundance.U, 1);
+s3.Mass.Th = sum(total_mass .* data.s3.Abundance.Th, 1);
+s3.Mass.K = sum(total_mass .* data.s3.Abundance.K, 1);
+s3.Mass.Total = sum(total_mass, 1);
+clear total_mass data;
+Total.U = s1.Mass.U + s2.Mass.U + s3.Mass.U;
+Total.Th = s1.Mass.Th + s2.Mass.Th + s3.Mass.Th;
+Total.K = s1.Mass.K + s2.Mass.K + s3.Mass.K;
+Total.Total = s1.Mass.Total + s2.Mass.Total + s3.Mass.Total;
+% clear s1 s2 s3;
+%%%%%%%%%%%% Crust %%%%%%%%%%%%%%%%%
+% clear data total_mass UC;
+% data = load("./UC.mat");
+% total_mass = data.UC.Mass;
+% UC.Mass.U = sum(total_mass .* data.UC.Abundance.U, 1);
+% UC.Mass.Th = sum(total_mass .* data.UC.Abundance.Th, 1);
+% UC.Mass.K = sum(total_mass .* data.UC.Abundance.K, 1);
+% UC.Mass.Total = sum(total_mass, 1);
+
+clear data total_mass MC;
+data = load("./MC.mat");
+total_mass = data.MC.Mass;
+MC.Mass.U = sum(total_mass .* data.MC.Abundance.U, 1);
+MC.Mass.Th = sum(total_mass .* data.MC.Abundance.Th, 1);
+MC.Mass.K = sum(total_mass .* data.MC.Abundance.K, 1);
+MC.Mass.Total = sum(total_mass, 1);
