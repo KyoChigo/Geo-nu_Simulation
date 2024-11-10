@@ -89,7 +89,7 @@ MASS = DENSITY .* VOLUME; % Row Vector
 total_mass = MASS;
 %%%%%%%%%%%%%%%%%%%%%%%% Temperature %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 TEMPERATURE = 0; % Unit: ℃
-if strcmp(name_layer, 'MC') | strcmp(name_layer, 'LC')
+if strcmp(name_layer, 'MC_CC') | strcmp(name_layer, 'LC_CC')
 TEMPERATURE = 10 + 71.6 .* (1 - exp(-DEPTH./1000 ./ 10) ) + 10.7 .* DEPTH ./ 1000; % Row vector
 end
 %%%%%%%%%%%%%%%%%%%%%%%% Pressure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -103,7 +103,7 @@ clear pressure_this_layer;
 ABUNDANCE_U = 0;
 ABUNDANCE_TH = 0;
 ABUNDANCE_K = 0;
-if strcmp(name_layer, 'MC') || strcmp(name_layer, 'LC')
+if strcmp(name_layer, 'MC_CC') || strcmp(name_layer, 'LC_CC')
     vp_cor = cor_array{3}; % Crust Vp; column vector
     vp_mean = array_for_abundance{1}; % Unit: km/s; single value
     vp_error = 0.03 * vp_mean;
@@ -118,10 +118,10 @@ if strcmp(name_layer, 'MC') || strcmp(name_layer, 'LC')
 %%% %%% %%% Compute Abundance with Huang %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if strcmp(name_method, 'Huang')
         cor_end = cor_array{3}; % End member Vp; column vector
-        if strcmp(name_layer, 'MC')
+        if strcmp(name_layer, 'MC_CC')
             vp_f = Generate_Random_Normal(6.34, 0.16, 0, cor_end); % Column vector
             vp_m = Generate_Random_Normal(6.98, 0.20, 0, cor_end); % Column vector
-        elseif strcmp(name_layer, 'LC')
+        elseif strcmp(name_layer, 'LC_CC')
             vp_f = Generate_Random_Normal(6.52, 0.19, 0, cor_end); % Column vector
             vp_m = Generate_Random_Normal(7.21, 0.20, 0, cor_end); % Column vector
         end
