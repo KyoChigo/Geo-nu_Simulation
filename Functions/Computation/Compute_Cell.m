@@ -9,7 +9,7 @@ function [thick, radius, total_mass, abund_U, abund_Th, abund_K, pressure_to_lay
 % TEMPERATURE: ℃
 %%%%%%%%%%%%%%%%%%%%%%%% 判断 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 thickness_mean = array_for_radius(1); % Unit: m; single value
-if thickness_mean <= 0
+if thickness_mean <= 0 | strcmp(name_layer, 'LM_OC')
     template = zeros(1, iteration);
     thick = template;
     radius = template;
@@ -26,7 +26,7 @@ THICKNESS = 0; % Unit: m
 cor = cor_array{1}; % Thickness; column vector
 temp_int = strcmp('Crust1', name_model) + strcmp('Crust2', name_model);
 uncertainty = 0.12;
-if strcmp(name_layer, 'LM') && temp_int == 1
+if strcmp(name_layer, 'LM_CC') && temp_int == 1
     lab = Generate_Random_Normal(175000, 75000, 0, cor); % Unit: m; column vector
     moho_mean = array_for_radius(2); % Unit:m; single value
     moho = Generate_Random_Normal(moho_mean, moho_mean * uncertainty , 0, cor); % Unit: m; column vector
@@ -155,6 +155,22 @@ clear cor_end vp_f vp_m fraction;
     elseif strcmp(name_method, 'Bivariate')
         disp('[Compute_Cell] Bivariate is to be finished');
     end
+%%% %%% %%% Compute Abundance in LM
+elseif strcmp(name_layer, 'LM_CC')
+    cor = cor_array{3}; % abundance; column vector
+    cor = cor'; % 转换成行矢量
+    U_mean = array_for_abundance{1};
+    U_error_pos = array_for_abundance{2};
+    U_error_neg = array_for_abundance{3};
+    Th_mean = array_for_abundance{4};
+    Th_error_pos = array_for_abundance{5};
+    Th_error_neg = array_for_abundance{6};
+    K_mean = array_for_abundance{7};
+    K_error_pos = array_for_abundance{8};
+    K_error_neg = array_for_abundance{9};
+    ABUNDANCE_U = Generate_Random_Log_Normal(U_mean, U_error_pos, U_error_neg, 0, cor);
+    ABUNDANCE_TH = Generate_Random_Log_Normal(Th_mean, Th_error_pos, Th_error_neg, 0, cor);
+    ABUNDANCE_K = Generate_Random_Log_Normal(K_mean, K_error_pos, K_error_neg, 0, cor);
 %%% %%% %%% Compute Abundance in other layers %%%%%%%%%%%%%%%%%%%%%%
 else
     cor = cor_array{3}; % abundance; column vector

@@ -12,9 +12,9 @@ function [output] = Convert_XYZ_Coordinate(lon, lat, radius)
 % y = radius * cos(latitude) * sin(longitude);
 % z = radius * sin(latitude)
 
-x = radius * cos(lat * pi/180) * cos(lon * pi/180);
-y = radius * cos(lat * pi/180) * sin(lon * pi/180);
-z = radius * sin(lat * pi/180);
+x = radius .* cos(lat * pi/180) * cos(lon * pi/180);
+y = radius .* cos(lat * pi/180) * sin(lon * pi/180);
+z = radius .* sin(lat * pi/180);
 
 output = [x y z];
 

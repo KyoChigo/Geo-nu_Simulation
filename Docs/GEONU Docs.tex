@@ -1,0 +1,370 @@
+\input{D:/book-begin.tex}
+\usepackage{ctex}
+
+\begin{document}
+\chapter{数据结构}
+	GEONU现在的数据结构分成了4大类：
+		\begin{itemize}
+			\item Physics：物理输入；所有和物理相关的信息都存放在这个数据结构当中。
+			\item Geology：地质输入；加载的地质模型、设定的丰度信息、随机产生的关联系数等数据都会存放在这个结构当中。
+			\item Computation：存储每个cell的详细数据；Computation结构从Geology中读取数据进行计算，其中包括：随机抽样的均值、误差、关联系数等。
+			\item Output：输出文件的结构；Output会从Computation中统计感兴趣的物理量，例如：总热功率、geonu通量、不同探测器的geonu事例率等。
+		\end{itemize}
+\chapter{输入}
+	\section{Geology}
+		Geology是一个非常重要的数据结构，这里面存储了地质计算的关键信息。Computation中的很多数据都是根据Geology进行随机抽样。\par
+		对于Lithosphere部分，需要认为输入以下地层的U、Th和K的丰度：
+			\begin{itemize}
+				\item OC：UC、LM和Sed的OC地形将会采用一样的丰度
+				\item CC：UC、LM和sed需要输入不同的丰度
+			\end{itemize}
+\chapter{Physics}
+\chapter{Geology}
+	\section{Load\_Lithosphere\_Data}
+		这个函数可以实现：
+			\begin{itemize}
+				\item 根据Lithosphere.Model.Index自动加载对应的地质数据；其中BivarData将会用于DeepCrust的丰度计算
+				\item 调用Assign\_OC\_CC函数：这个函数会根据不同地质模型，根据GeoPhys.type来标定哪些cell是OC、哪些cell是CC，并把结果加载到Model.Logical.OC或者CC当中。
+				\item 调用Allocate\_Variables\_Lithosphere函数：申请内存，在Model.Abundance.(layer).U, Th和K中申请64800*3的表格。每一行有3列，分别代表均值、正误差、负误差；后续丰度的随机抽样结果将会填放在这里。
+			\end{itemize}
+	\section{Generate\_Correlations}
+		这个函数可以实现：
+			\begin{itemize}
+				\item 产生一系列的关联系数：是用标准高斯分布产生关联系数；这些系数涉及到了Lithosphere、Mantle、BSE等结构，换句话说，只要是计算过程中用到的关联系数，都会在这产生，并且放到对应结构的Correlation当中。
+			\end{itemize}
+		需要注意的是：
+			\begin{itemize}
+				\item Lithosphere的7个地层只有Thickness是采用相同的关联系数；而Vp，Abundance是每层独立产生；
+				\item MC和LC还另外计算了End和Bivar两个分支都会放到 Model.Correlation.(layer).DeepCrust当中，都会用于Deepcrust的丰度计算。
+			\end{itemize}
+	\section{Compute\_Abundance\_DeepCrust}
+		这个函数可以实现：
+			\begin{itemize}
+				\item 根据DeepCrust方法计算了MC和LC中U、Th、K的丰度；
+				\item 整套计算采用的是xxxx方法。
+				\item Amphibolite对应xx层；Granulite对应xx层
+				\item 采用的Log-Normal抽样的方式
+			\end{itemize}
+	\section{Assign\_Abundance\_Layer}
+		这个函数会根据字符字符串自动加载OC和CC的丰度；这些丰度也会用于丰度的抽样。
+	\section{Find\_Near\_Field\_Cells}
+		这个函数会根据detector的位置信息寻找detector附近的cell，寻找的结果会用于计算local filed的贡献，它不影响主要的计算。
+	\section{Compute\_Abundance\_BSE}
+		这个函数对BSE当中U，Th和K的丰度进行随机抽样，抽样的方式有高斯与Log高斯。
+		\begin{GCBox}[title = Huang method]{}
+			文献\href{https://agupubs.onlinelibrary.wiley.com/doi/10.1002/ggge.20129}{https://agupubs.onlinelibrary.wiley.com/doi/10.1002/ggge.20129}详细描述了Huang的计算方法，这里只做简单总结：
+				\begin{itemize}
+					\item Huang假设MC和LC都是由Felsic和Mafic构成，只不过两者的占比不同从而成了Amphibolite和Granulite。但无论都有$f + m = 1$。
+					\item Huang在实验室中测量了felsic和Mafic的波速，即$V_p$。通过组合让速度等于crust中的实际波速，即$f\times v_f + m\times v_m = v_{crust}$。
+					\item 由于Amphibolite和Granulite都包含大量的$SiO_2$(质量占比50\%以上)，通过$SiO_2$和$V_p$的关系就可以反推HPEs的丰度；其中$K$元素丰度是通过$K_2O$进行推测的。平均丰度$a$与$SiO_2$遵循Log-Normal分布，即$Log(a) \sim N$；
+					\item 最后用平均丰度$a = f\times a_f + m\times a_m$来表征HPEs的丰度。
+				\end{itemize}
+			Felsic和Mafic中HPEs的丰度$a$遵循Log-Normal分布，集成在了\textbf{Compute\_Abundance\_DeepCrust()}当中，用到的常数都可以从Huang文章中的Table 5当中找到。\par
+			{\color{red}注意：原版程序中\textbf{wt}表示的是${}^{40}K$的质量分数，新版已经修改成了$K$的质量分数。}
+		\tcbline
+			不同岩石中$V_p, V_s$遵循高斯分布，具体数值可查Table 4；波速$V_p$需要进行温度和压强修正，具体表达式为：
+				\begin{align}
+					&v_p = v_p - (temperature - 20) * 4 * 10^{-4},\\
+					&v_p = v_p + (pressure - 600) * 2 *10^{-4}.
+				\end{align}
+			先进行温度修正再进行压强修正。这些计算集成在了\textbf{Compute\_Abundance()}当中。这个函数可以给出U，Th和 ${}^{40}K$的丰度。
+		\end{GCBox}
+		\begin{RCBox}[title = 丰度小记]{}
+			\begin{itemize}
+				\item Compute\_Aundance\_DeepCrust: 随机抽样U、Th和K的丰度，需要注意不是K40的丰度。
+				\item Assign\_Abundance: 指定U、Th和K的丰度。
+			\end{itemize}
+		\end{RCBox}
+		\begin{GCBox}[title = BSE丰度]{}
+			内容...
+		\end{GCBox}
+	\section{Preallocate\_Computation}
+		这个函数会根据Geology的信息提前申请内存。这个函数包含多种模板：
+			\begin{itemize}
+				\item 64800*iteration: Thickness, Depth, Radius, Density, Volume, Temperature, Pressure, Abundance.XXX, Mass.XXX
+				\item 64800*3:  Geonu\_Flux.XXX, Heat\_Power.xxx
+				\item iteration * 1: Mantle.Abundance.xx
+			\end{itemize}
+	\section{Fill\_Computation}
+		这个函数就是将Geology中的某些branch拷贝到了Computation，保持计算过程中代码的整洁性。
+	\section{Compute\_Lithosphere}
+		这个函数实现了计算Lithosphere中的各种信息：Thickness, Depth, Density, Radius, Volume, Temperature, Pressure, Abundance, Mass, Geonu\_Flux和Heat\_Power。需要注意的是整套计算必须是从最外层往最内层逐层计算，也就是s1$\rightarrow$LM，这是因为计算温度时会使用上一层的压强。
+		\begin{GCBox}[title = Compute\_Layer\_Thickness]{}
+			这个函数用来计算厚度。对于Crust1+LM或者Crust2+LM这种组合，厚度的计算方法是Thickness = LAB - Moho；对于其他情况就是从Data.thick中进行高斯抽样，相对误差为$12\%$。由于是随机抽样，最后会对负数置零。
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Depth]{}
+			这个函数用来计算深度即距离地表的距离。这个函数会从Data.depth中进行高斯抽样，相对误差为$12\%$。由于是随机抽样，最后会对负数置零。
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Density]{}
+			这个函数用来计算密度，单位是？？。这个函数会从Data.rho中进行高斯抽样，相对误差为$5\%$。需要注意的是，相关系数使用的是Vp，这可能是因为地质学中密度都是通过地震波进行推测的。由于是随机抽样，最后会对负数置零。
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Radius]{}
+			这个函数用来计算半径，即地心到cell的直线距离。简单来说就是Geophys.r - depth。
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Volume]{}
+			这个函数用来计算cell的体积。体积的计算公式为
+				\begin{equation}
+					V
+					= \int_{r_{min}}^{r_{max}}\int_{\varphi_{left}}^{\varphi_{right}}\int_{\theta_{bot}}^{\theta_{top}}r^2\cos\theta\varphi drd\theta d\varphi
+					= \frac{1}{3}(r_{max}^3 - r^3_{min})(\varphi_{right} - \varphi_{left})(\sin \theta_{top} - \sin\theta_{bot}).
+				\end{equation}
+			其中$r$为半径，$\varphi$为经度，$\theta$为纬度。
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Temperature]{}
+			这个函数用来计算cell的温度，具体公式为
+				\begin{equation}
+					T
+					= 10 + 71.6 (1 - e^{-\frac{depth}{10000}}) + 10 * \frac{depth}{1000}.
+				\end{equation}
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Pressure]{}
+			这个函数用来计算Cell的压强，具体公式为：
+				\begin{equation}
+					P
+					= P_{last layer} + \frac{1}{2} * density * Thickness * 9.80665 * 10^{-6}.
+				\end{equation}
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Abundance]{}
+			这个函数用来计算Cell的元素丰度。对于MC和LC地层来说，元素的丰度通过DeepCrust方法实现，具体集成到了Compute\_Abundance函数当中；对于其他地层则是对Abundance.layer.xx进行高斯抽样，其中均值和相对误差都来自这个branch。
+		\end{GCBox}
+		\begin{BCBox}[title = Compute\_Abundance]{}
+			这是一个非常复杂的函数。等待补充
+		\end{BCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Mass]{}
+			这个函数用来计算cell的总质量、U、Th、K的质量，就是密度乘体积。
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Geonu\_Flux]{}
+			这个函数用来计算cell的Geonu通量。在Physics.Elements.Geonu\_Flux中已经输入了单位质量U、Th、K的Geonu通量，所以就是简单的乘法。
+		\end{GCBox}
+		\begin{GCBox}[title = Compute\_Layer\_Heat\_Power]{}
+			这个函数用来计算cell的Geonu通量。在Physics.Elements.Heat\_Power中已经输入了单位质量U、Th、K的热功率，所以就是简单的乘法。
+		\end{GCBox}
+	\section{Compute\_Mantle\_Mass}
+\chapter{Computation}
+	\section{Geonu信号}
+		\begin{GCBox}[title = Geonu信号的计算]{}
+			对于某个探测器来说，Geonu的事例率的计算公式为：
+				\begin{equation}
+					R_{Geonu}
+					= \sum_i^N \int_{Earth}\rho A dV \frac{N_A}{m}\frac{\ln 2}{\tau} \times  \int_{1.806MeV}^\infty \frac{P_{ee}}{4\pi L^2}\times \frac{dn}{dE}\sigma(E)dE \times \varepsilon
+				\end{equation}
+			其中$N$是HPEs的个数；$\rho$是岩石的密度；$A$是HPE的质量丰度；$N_A$是阿伏伽德罗常数；$m$是HPE的摩尔质量；$\tau$是HPE的半衰期；$L$是HPE到探测器的距离；$P_{ee}$是振荡概率；$dn/dE$是HPE的中微子能谱；$\sigma(E)$是IBD散射截面；$\varepsilon$是探测器的探测效率。\par
+			有时候想看探测的地球中微子能谱，其计算公式为
+				\begin{equation}
+					\left(\frac{dn}{dE}\right)_{mea}
+					= \sum_i^N \int_{Earth} \rho A dV \frac{N_A}{m} \frac{\ln 2}{\tau}
+					\times \frac{P_{ee}}{4\pi L^2}
+					\times \frac{dn}{dE}\sigma \times \varepsilon
+				\end{equation}
+			上述公式可以拆分成三部分：1）HPE的质量；2）单位质量HPE能产生的通量；3）传播效应。
+		\tcbline
+			既然HPEs会衰变释放中微子，释放中微子的能谱就是$dn/dE$；但是中微子振荡会扭曲，从而使我们探测到的能谱和$dn/dE$有很大的差别。这里就简单梳理一下计算探测能谱的逻辑：
+				\begin{enumerate}
+					\item 一直cell上HPEs的质量，就可以求出geonu的通量，即每秒释放出$n_1$个geonu。这些geonu遵循$dn/dE$能谱；
+					\item geonu按照球形传播，传播过程中还有振荡效应发生。所以$dn/dE$就会发生扭曲
+				\end{enumerate}
+			所以我们需要将$dn/dE$归一化，然后bin-to-bin的施加传播效应。于是探测到的能谱是
+				\begin{equation}
+					\left(\frac{dn}{dE}\right)_{mea}
+					= \sum_i^N \sum_j^{N_{Cell}}m_i \times l \times \frac{dn}{dE}\sigma(E)\frac{P_{ee}}{4\pi L^2}
+				\end{equation}
+			对于能谱扰动来说，我们关注整个地球的影响，并不在乎具体地层的贡献；而对于geonu signal的研究来说，注重地层和cell的贡献。
+		\end{GCBox}
+\chapter{旧版函数解读}
+	\section{主程序解读}
+		\begin{GCBox}[title = 模拟设定]{}
+			主程序第1-38行，选择要考虑的detector、是否要计算通量、nearfield的计算方法。detector信息的加载集成到了\textbf{Load\_Detector()}中，计算开关呈主程序当中。
+		\tcbline
+			主程序第39-75行，选择Lithosphere的地质模型并加载对应数据。这段代码集成到了\textbf{Load\_Lithosphere\_Data()}当中。
+		\tcbline
+			主程序第76-120行，根据不同地质模型统计OC、CC地形。统计的索引会用于后续区分OC、CC的贡献。这段代码集成到了\textbf{Load\_Detector::Assign\_OC\_CC()}当中。
+		\tcbline
+			主程序第121-131行，选择DeepCrust的计算方法。这段代码呈现在主程序当中。\par
+			主程序第132-161行，设定迭代次数、并行池的设定。新版程序中直接删除。\par
+			主程序第162-217行，提前申请内存，规定了丰度、热功率通量、质量、geo通量的格式。新版程序中对删除了热功率通量转而计算热功率，对应\textbf{Computation.Lithosphere.Layer.Heat\_Power}，将丰度拆分到了\textbf{Geology.Lithosphere.Model.Abundance}和\textbf{Computation.Lithosphere.Layer.Abundance}当中；质量放到了\textbf{Computation.Lithosphere.Layer.Mass}中；geo通量放到了\textbf{Computation.Lithosphere.Layer.Geo\_Flux}中；删除了\textbf{sum}变量，在全部完成计算之后再进行统计。\par
+			\textbf{Geology.Lithosphere.Model.Abndance}的结构与规格定义在\\
+			\textbf{Load\_Lithosphere\_Data::Allocate\_Variables\_Lithosphere()}中。因为规格与地质数据有关，必须导入地质数据之后才能申请内存。
+		\end{GCBox}
+		\begin{GCBox}[title = 关联系数]{}
+			主程序第218-242行，产生关联系数，它们会用于高斯和log高斯随机抽样。这段代码集成到了\textbf{Generate\_Correlations()}。
+		\tcbline
+			主程序第243-261行，产生关联系数，它们用于Bivart方法中的随机抽样。这段代码集成到了\textbf{Generate\_Correlations()}。
+		\end{GCBox}
+		\begin{GCBox}[title = K的相关系数]{}
+			主程序第262-263行，定义了K元素在$K_2O$的质量占比与${}^{40}K$在$K$中的质量分数。分别放到了\textbf{Physics.Constants.Others.K\_K2O}和\textbf{Compute\_Relative\_Abundance\_Mass()}。
+			\tcbline
+			应用：
+				\begin{itemize}
+					\item K.r: 主程序第315行：输入的是$K_2O$的数据而非$K$的数据，需要进行换算。
+					\item K.b: 主程序第373，758，764行。
+				\end{itemize}
+		\end{GCBox}
+		\begin{GCBox}[title = 丰度相关]{}
+			主程序第264-324行，输入的是UC所有地形(CC + OC)，LM的CC和Sed地层所有地形(CC + UC)的U、Th、K的丰度。这里的$U$包含${}^{235}U$和${}^{238}U$；$K$包含$K$的所有同位素。参数输入呈现在主程序，调用\textbf{Assign\_Abundance\_Layer()}实现填数。
+			\tcbline
+			{\color{red}注意：Sedminent的K元素丰度中需要乘一个K.r。}
+		\end{GCBox}
+		\begin{GCBox}[title = DeepCrust相关]{}
+			主程序第325-339行，定义了amphibolite和granulite的HPEs丰度，它们会用于Huang's计算。{\color{red} 这里的K 实际上指的是${}^{40}K$，因为\textbf{wt}的表达式中乘了${}^{40}K$的质量分数。}。这段代码集成到了\textbf{Compute\_Abundance\_DeepCrust()}当中。
+			\tcbline
+			主程序第340-348行，定义了endmember，它们用于Bivart's计算。这段代码集成到了\textbf{Compute\_Lithosphere::Compute\_Layer\_Abundance\_Compute\_Abundance()}中，说实话需要改进。
+		\end{GCBox}
+		\begin{GCBox}[title = Mantle方法的统计]{}
+			主程序第349-366行，定义了Mantle的计算方法，但现在只实现了Layered方法。呈现在主程序当中。
+		\end{GCBox}
+		\begin{GCBox}[title = BSE相关]{}
+			主程序第367-373行，定义了地幔中U的总质量、Th/U、K/U比值和BSE中U、Th和${}^{40}K$的丰度。这里的U指${}^{238}U$和${}^{235}U$；K指的是K的所有同位素。
+		\end{GCBox}
+		\begin{GCBox}[title = 物理输入]{}
+			主程序第374-378行，输入的是单位质量HPEs产生的热功率。这段代码集成到了\textbf{Physics.Elements.Heat\_Power}中。
+		\tcbline
+			主程序第379-384行，输入的是HPEs的摩尔分数。这段代码集成到了\textbf{Physics.Elements.Abundance.Mole}。
+		\tcbline
+			主程序第385-391行，输入的是HPEs的原子质量以及amu和kg的换算关系。放到了\textbf{Physics.Elements.Mass}和\textbf{Physics.Constants.Unit\_Conversion}。
+		\tcbline
+			主程序第392-394行，输入的是Avogadro常数。放到了\textbf{Physics.Constants.Others}中。
+		\tcbline
+			主程序第395-399行，输入的是HPEs的衰变常数。放到了\textbf{Physics.Elements.Decay\_Constants}中。
+		\tcbline
+			主程序第400-408行，输入的是中微子振荡常数。放到了\textbf{Physics.Oscillation.Parameters}，通过\textbf{Load\_Oscillation\_Parameters()}产生。换句话说振荡参数可以是固定的也可以是随机抽样的。
+		\tcbline
+			主程序第409-411行，计算了三个系数，便于中微子振荡的计算。放到了\textbf{Physics.Ocillation.Coefficients}中。GEONU采用的振荡公式为：
+				\begin{equation}
+					Oscillation Equation To Be Finished
+				\end{equation}
+		\tcbline
+			主程序第412-421行，输入的是中微子的能量，用于计算IBD截面和画图等操作。bin宽$75$ keV，范围从$0-3300$ keV。这段代码拆分成了\textbf{Physics.Elements.Specturm.Energy}，能量的读取放到了\textbf{Load\_Geonu\_Spectur()}中。
+		\tcbline
+			主程序第422-232行，加载了Enomoto提供的HPE衰变的中微子能谱，并根据设置的bin宽重新计算HPEs的$\frac{dn}{dE}$。所有数据都可以从\href{https://www.awa.tohoku.ac.jp/~sanshiro/research/geoneutrino/spectrum/}{https://www.awa.tohoku.ac.jp/~sanshiro/research/geoneutrino/spectrum/}中查到，比对。这里直接解释么每列数据的含义：第1-3列是中微子的能量，单位分别是keV, MeV, pJ，第4-7列分别是${}^{238}U, {}^{235}U, {}^{232}Th, {}^{40}K$的中微子能谱，单位是$1/keV$。这里已经确认第1-7列除了第3列都没有问题。这段代码集成到了\textbf{Load\_Geonu\_Specturm()}中。
+		\tcbline
+			主程序第433-438行，计算了HPEs元素一次衰变平均放出的中微子数目。这段代码集成到了\textbf{Load\_Geonu\_Specturm()}中
+		\tcbline
+			主程序第439-448行，计算了IBD的散射截面，这段代码集成到了\textbf{Compute\_Cross\_Section()}。采用的公式为：
+				\begin{equation}
+					\frac{\sigma_{IBD}}{cm^2}
+					= 9.52 * ?????.
+				\end{equation}
+		\tcbline
+			主程序第449-454行，没看懂，但不影响计算，应该是统计xxx随着distance的变化。
+		\end{GCBox}
+		\begin{GCBox}[title = 提前申请内存]{}
+			主程序第455-469行，定义了\textbf{layer\_cc\_flux\_sums, layer\_nf\_flux\_sums, layer\_nf\_fluxs\_cc, layer\_oc\_flux\_sum}的规格：iteration * 2 能量bin长度。这里是两倍能量bin宽是想把U和Th同时放进去，比如说第一个bin组放$U$，第二个bin组放$Th$。新版本程序直接删除。
+		\end{GCBox}
+		\begin{GCBox}[title = 探测器信息处理]{}
+			主程序第470-476行搜索了detector最近的cell，然后更新了detector的半径。这段代码集成到了\textbf{Find\_Near\_Field\_Cells()}。
+		\end{GCBox}
+		\begin{GCBox}[title = nearfiled的搜索]{}
+			主程序第477-491行，实现了矩形搜索nearfield的方法，不影响后续计算，只影响nearfield的统计。这段代码集成到了\textbf{Find\_Near\_Field\_Cells()}。
+		\tcbline
+			主程序第492-500行，实现了圆形搜索nearfield的方法，不影响后续计算，只影响nearfield的统计。
+		\end{GCBox}
+		\begin{GCBox}[title = 平庸的操作]{}
+			主程序第501-508行，计算了不知道什么东西，简单来说就是渐变了后续的地球中微子信号的计算，只影响Geonu信号的统计，不影响cell丰度等计算。新版本直接删除。
+		\tcbline
+			主程序第509-511行，平庸的赋值操作。新版本直接删除。
+		\tcbline
+			主程序第512-526行，输出文本信息。新版本直接删除。
+		\end{GCBox}
+		\begin{GCBox}[title = Lithosphere的并行计算]{}
+			主程序第527-532行，刷新随机种子，拿到了nearfiled的索引。新版本直接删除。
+		\tcbline
+			主程序第533-601行，调用\textbf{Abund\_And\_Flux()}，对CC地形或者是CC且不是nearfield的cell，进行丰度、通量的等计算。water和ice地层对最后计算没有影响，后续分析也不会考虑这两层，可以忽略。\par
+			主程序第602-605行，对于CC地形且是nearfield的cell，GEONU不做处理。{\color{red}我不明白!!}\par
+			主程序第606-663行，调用\textbf{Abund\_And\_Flux()}，对OC地形进行计算。\par
+			这段程序集成到了\textbf{Compute\_Lithosphere()}。
+		\tcbline
+			主程序第664-671行，不明白统计了什么东西。新版本直接删除。
+		\tcbline
+			主程序第672-693行，统计了nearfield的丰度、质量、通量等信息。{\color{red}我没看它们具体有什么东西，但就是一个统计}。新版本直接删除。
+		\tcbline
+			主程序第694-721行，统计了nearfield的CC地形的丰度、质量、通量等信息。{\color{red}我同样没看它们具体有什么东西，但就是一个统计}。新版本直接删除。
+		\tcbline
+			主程序第722-728行，输出文本信息，不影响计算。新版本直接删除。
+		\tcbline
+			可以看到，\textbf{Abund\_And\_Flux()}函数实现了最重要的地质学计算，这个将会是重点解读的部分。除此之外还需要注意以下几点：	
+				\begin{itemize}
+					\item 整套并行计算是按照cell并行计算，换句话说一定的立体角进行并行计算，从最外层往最内层计算，在\textbf{Abund\_And\_Flux()}实现温度、压强、质量、丰度等计算；新版程序则将\textbf{Abund\_And\_Flux()}拆分成了更小的函数，计算完某一地层的所有cell的所有信息参会计算下一底层的cell的所有信息。
+					\item 计算要按照s1, s2, s3, UC, MC, LC, LM这个顺序进行。这是因为\textbf{Abund\_And\_Flux()}中会用到压强对$v_p$进行修正，所以会讲究计算顺序；压强是通过\textbf{temp}变量在不同底层之间传递，而变量\textbf{P}只是给出当前layer产生的压强。
+					\item 旧版代码针对CC，OC和nearfield进行了区分，这是因为它们想单独计算cc, oc和nf的贡献。但在新版程序当中将不再区分而是统一计算，最后在根据OC、CC和nerfield的索引单独统计它们的贡献。
+				\end{itemize}
+		\end{GCBox}
+		\begin{GCBox}[title = Mantle计算]{}
+			主程序第729-738行，计算了地球、地核、bse和地幔，lithosphere的总质量。\par
+			主程序第739-746行，{\color{red}看不明白！！}\par
+			主程序第747-766行，计算了depleted地层HPEs的丰度？\par
+			主程序第767-776行，计算了enriched地层HPE的质量？\par
+			主程序第777-789行，将depleted、enriched地层小于零的项归零。\par
+			主程序第790-799行，定义了并行计算中需要用到的变量。\par
+			主程序第800-806行，调用\textbf{mantleGeo()}进行计算。\par
+			主程序第807-822行，对depleted和enriched地层信息进行统计。\par
+			主程序第823-831行，输出文本。\par
+		\end{GCBox}
+		\begin{GCBox}[title = 误差计算]{}
+			主程序第832-835行，不同误差计算方法对应不同的参数。\par
+			主程序第836-845行，调用\textbf{RM18\_allocate()}进行误差计算。\par
+			主程序第846-849行，拷贝branch。\par
+			主程序第850-853行，调用\textbf{rmfield()}，{\color{red}但我不知道要干啥。}
+		\end{GCBox}
+	\section{Abund\_And\_Flux函数解读}
+		\begin{BCBox}[title = 变量的整理]{}
+			\begin{itemize}
+				\item \textbf{abund\_mass}：第1-3列表示U、Th、${}^{40}K$的质量(kg)。
+				\item \textbf{heat}：U、Th、${}^{40}K$的热功率和总热功率(W)。
+				\item \textbf{heatflow}: 热功率通量($W/m^2$)。
+			\end{itemize}
+		\end{BCBox}
+		\begin{GCBox}[title = 0结果直接返回]{}
+			函数第1-80行，注释。\par
+			函数第81-117行，如果是cell的厚度为$0$或者是\textbf{LM\_oc}地层则直接返回$0$结果。新版程序中直接删除，需要想明白删除LM\_oc时候合适，会不会影响后续的计算。
+		\tcbline
+			函数第118-122行，根据$K$的丰度计算了${}^{40}K$的丰度。TBD\par
+		\tcbline
+			函数第123-126行，定义DeepCrust中Huang方法的丰度计算公式，会用于函数第279-281行和第318-320行。\par
+			函数第127-137行，计算了cell的面积，单位$m^2$。\par
+			函数第138-142行，提前申请内存。\par
+			函数第143-148行，拿到DeepCrust中Bivart方法需要用到的变量，会用于函数第288-290行和第326-328行。集成到了\textbf{Compute\_Layer\_Abundance::COmpute\_Abundance()}中。
+		\tcbline
+			函数第149-188行，{\color{red}看不懂的操作，初步看会用到geonu通量的统计当中，换句话说不影响每个cell的计算}。
+		\end{GCBox}
+		\begin{GCBox}[title = cell信息的计算]{}
+			函数第189-206行，计算了thickness。对于Crust1+LM或者Crust2+LM的组合则采用LAB-moho的方式；其他组合则是高斯随机抽样。集成到了\textbf{Compute\_Layer\_Thickness()}。
+		\tcbline
+			函数第207-214行，对depth、rho(密度)进行了高斯随机抽样。分别集成到了\textbf{Compute\_Layer\_Deptho()}和\textbf{Compute\_Layer\_Density()}中。
+		\tcbline
+			函数第215-221行，计算了cell的质量。集成到了\textbf{Layer\_Compute\_Mass()}。
+		\tcbline
+			函数第222-229行，计算了该层产生的压强。集成到了\textbf{Layer\_Compute\_Pressure()}。
+		\end{GCBox}
+		\begin{GCBox}[title = DeepCrust和丰度的计算方法]{}
+			函数第230-254行，是用DeepCrust方法计算LC和MC中HPEs丰度的计算，拿到$V_p($km/s$)$、温度(℃)和压强(MPa)。集成到了\textbf{Compute\_Layer\_Abudance::Compute\_Abundance()}。温度的计算公式是
+				\begin{equation}
+					T(℃)
+					= T_0 + \frac{q_my}{k} + \frac{(q_0 - q_m)h_r}{k}\left(1 - e^{-y/h_r}\right),
+				\end{equation}
+			这个公式来自于\textbf{Geodynamics}中的公式4.31，具体的参数为$T_0 = 10℃, h_r = 10 km, q_0 = 60 mW/m^2, q_m = 36 mW/m^2, k = 3.35 W/(m*℃)$，$y$是深度。{\color{red}这里需要注意的是，$k$在书中的单位是$W/(m*K)$，但从它们展示的图像和GEONU注释中可以看出他们并不理解开尔文和摄氏度之间的关系，只是认为两者相等，所以这里修成了正确的单位。}
+		\tcbline
+			函数第255-282行，MC层Huang的计算方法计算U、Th、${}^{40}K$丰度。集成到了\textbf{Compute\_Layer\_Abudance::Compute\_Abundance()}。
+		\tcbline
+			函数第283-293行，MC层Bivart的计算方法计算U、Th、${}^{40}K$丰度，集成到了\textbf{Compute\_Layer\_Abudance::Compute\_Abundance()}。
+		\tcbline
+			函数第294-336行，LC层Huang和Bivart的计算方法计算U、Th、${}^{40}K$丰度。集成到了\textbf{Compute\_Layer\_Abudance::Compute\_Abundance()}。
+		\tcbline
+			函数第337-356行，计算其他地层U、Th、${}^{40}K$丰度，高斯抽样或者Log高斯抽样。集成到了\textbf{Compute\_Layer\_Abudance()}。
+		\tcbline
+			函数第357-399行，计算U、TH、${}^{40}K$的质量(kg)、热功率(W)、热流($W/m^2$)。集成到了\textbf{Compute\_Layer\_Mass()}，\textbf{Compute\_Layer\_Heat\_Power()}；删除了热流的计算。
+		\end{GCBox}
+		\begin{GCBox}[title = 其他]{}
+			函数第400-579行，Geoflux、Georate的计算。\par
+			函数第580-786行，数据格式的整理。
+		\end{GCBox}
+	\section{mantleGeo}
+		\begin{GCBox}[title = 丰度计算]{}
+			函数第1-34行，注释。\par
+			函数第35-61行，不知道干了什么。\par
+			函数第62-119行，计算了mantle中不同底层的质量。\par
+			函数第120-144行，计算了U、Th、${}^{40}K$的总质量。\par
+			函数第145-163行，计算了depleted、enriched地层的热功率和热通量。
+			函数第164-352行，计算了Geoflux、Georate等信息。\par
+			函数第353-501行，数据格式的整理。
+		\end{GCBox}
+\end{document}
