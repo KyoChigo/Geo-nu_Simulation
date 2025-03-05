@@ -80,3 +80,20 @@ Total.Mass = UC.Mass + MC.Mass + LC.Mass;
 
 %%%%%%%%%%%% Sediment + Crust
 Total.Mass = UC.Mass + MC.Mass + LC.Mass + s1.Mass + s2.Mass + s3.Mass;
+
+%%%%%%%%%%%% LM
+data = load("./LM.mat");
+total_mass = data.LM.Mass;
+U_mass = sum(total_mass .* data.LM.Abundance.U, 1)';
+Th_mass = sum(total_mass .* data.LM.Abundance.Th, 1)';
+K_mass = sum(total_mass .* data.LM.Abundance.K, 1)';
+Layer_mass = sum(total_mass, 1)';
+LM.Mass = zeros(length(U_mass), 4);
+LM.Mass(:, 1) = Layer_mass(:, 1);
+LM.Mass(:, 2) = U_mass(:, 1);
+LM.Mass(:, 3) = Th_mass(:, 1);
+LM.Mass(:, 4) = 0.00011959 .* K_mass(:, 1);
+
+Total.Mass = LM.Mass;
+%%%%%%%%%%%%% Lithosphere
+Total.Mass = LM.Mass + UC.Mass + MC.Mass + LC.Mass + s1.Mass + s2.Mass + s3.Mass;

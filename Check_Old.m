@@ -16,6 +16,11 @@ temp_sum = LC_cc_sums + LC_oc_sums;
 temp_sum = UC_cc_sums + UC_oc_sums + MC_cc_sums + MC_oc_sums + LC_cc_sums + LC_oc_sums;
 %%%%%%%%%%%%%%%%% Sediment + Crust
 temp_sum = UC_cc_sums + UC_oc_sums + MC_cc_sums + MC_oc_sums + LC_cc_sums + LC_oc_sums + s1_cc_sums + s1_oc_sums + s2_cc_sums + s2_oc_sums + s3_cc_sums + s3_oc_sums;
+%%%%%%%%%%%%%%%%% LM
+temp_sum = LM_cc_sums + LM_oc_sums;
+%%%%%%%%%%%%%%%%% Lithosphere
+temp_sum = LM_cc_sums + LM_oc_sums + UC_cc_sums + UC_oc_sums + MC_cc_sums + MC_oc_sums + LC_cc_sums + LC_oc_sums + s1_cc_sums + s1_oc_sums + s2_cc_sums + s2_oc_sums + s3_cc_sums + s3_oc_sums;
+
 
 temp_ratio = temp_sum .* 0;
 temp_ratio(:, 1) = temp_sum(:, 2) ./ temp_sum(:, 1);
