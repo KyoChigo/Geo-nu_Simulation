@@ -8,7 +8,7 @@ for i = 1 :length(data(1, :))
     probability_comulative = cumsum(probability_with_zero); % 得到累积分布函数
     probability_comulative(end) = 1e3*eps + probability_comulative(end); % 数值程序小技巧，变成双浮点型数据？
     [~, ~, Geology.Lithosphere.Model.Correlation.MC.DeepCrust.Bivar.SiO2(:, i)] = histcounts(rand(iteration, 1), probability_comulative);
-    % histcounts(data, bins): 将data填进bins中；第三个参数是索引，即第i个data落在了哪个bin中
+    % histcounts(data, bins):  将data填进bins中；第三个参数是索引，即第i个data落在了哪个bin中
 end
 %%%%%%%%% LC %%%%%%%%%%%%%%%%%%%%%
 %%% Granulite的关于xxx的PDF
