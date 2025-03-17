@@ -9,7 +9,7 @@ function [thick, radius, total_mass, abund_U, abund_Th, abund_K, pressure_to_lay
 % TEMPERATURE: ℃
 %%%%%%%%%%%%%%%%%%%%%%%% 判断 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 thickness_mean = array_for_radius(1); % Unit: m; single value
-if thickness_mean <= 0 | strcmp('LM_OC', name_layer) == 1
+if thickness_mean <= 0 | strcmp(name_layer, 'LM_OC')
     template = zeros(1, iteration);
     thick = template;
     radius = template;
@@ -87,12 +87,6 @@ MASS = 0; % Unit: kg/m^3 * m^3 = kg;
 MASS = DENSITY .* VOLUME; % Row Vector
 %%% 记录数据
 total_mass = MASS;
-%%%%%%%%%%%%%%%% Test %%%%%%%%%%%%%%%%%%
-% if index == 3570 || index == 3672
-%     index
-%     total_mass
-% end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%% Temperature %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 TEMPERATURE = 0; % Unit: ℃
 if strcmp(name_layer, 'MC_CC') | strcmp(name_layer, 'LC_CC')
@@ -100,7 +94,7 @@ TEMPERATURE = 10 + 71.6 .* (1 - exp(-DEPTH./1000 ./ 10) ) + 10.7 .* DEPTH ./ 100
 end
 %%%%%%%%%%%%%%%%%%%%%%%% Pressure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 PRESSURE = 0; % Unit: MPa
-pressure_this_layer = DENSITY .* THICKNESS .* 9.80665 * 1e-6; % kg/m^3 * m * m/s^2 = kg/(m s^2); Pa = kg/(m s^2)
+pressure_this_layer = DENSITY .* THICKNESS .* 9.80655 * 1e-6; % kg/m^3 * m * m/s^2 = kg/(m s^2); Pa = kg/(m s^2)
 % 这层产生的压强
 PRESSURE = 0.5 * pressure_this_layer + last_layer_pressure; % 用来压强修正；Row vector
 pressure_to_layer = pressure_this_layer + last_layer_pressure; % 这层的总压强
@@ -110,20 +104,19 @@ ABUNDANCE_U = 0;
 ABUNDANCE_TH = 0;
 ABUNDANCE_K = 0;
 if strcmp(name_layer, 'MC_CC') || strcmp(name_layer, 'LC_CC')
-%%% Generate the Vp of this cell
-    vp_cor = cor_array{2}; % Crust Vp; column vector
+    vp_cor = cor_array{3}; % Crust Vp; column vector
     vp_mean = array_for_abundance{1}; % Unit: km/s; single value
     vp_error = 0.03 * vp_mean;
     vp_layer = Generate_Random_Normal(vp_mean, vp_error, 0, vp_cor); % Column vector
     name_method = array_for_abundance{2}; % Str
+    felsic_U = array_for_abundance{3}; % Column vector
+    felsic_Th = array_for_abundance{4}; % Column vector
+    felsic_K = array_for_abundance{5}; % Column vector
+    mafic_U = array_for_abundance{6}; % Column vector
+    mafic_Th = array_for_abundance{7}; % Column vector
+    mafic_K = array_for_abundance{8}; % Column vector
 %%% %%% %%% Compute Abundance with Huang %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if strcmp(name_method, 'Huang')
-        felsic_U = array_for_abundance{3}; % Column vector
-        felsic_Th = array_for_abundance{4}; % Column vector
-        felsic_K = array_for_abundance{5}; % Column vector
-        mafic_U = array_for_abundance{6}; % Column vector
-        mafic_Th = array_for_abundance{7}; % Column vector
-        mafic_K = array_for_abundance{8}; % Column vector
         cor_end = cor_array{3}; % End member Vp; column vector
         if strcmp(name_layer, 'MC_CC')
             vp_f = Generate_Random_Normal(6.34, 0.16, 0, cor_end); % Column vector
@@ -153,55 +146,46 @@ if strcmp(name_layer, 'MC_CC') || strcmp(name_layer, 'LC_CC')
         fraction(fraction < 0) = 0;
         fraction(fraction > 1) = 1;
 %%% %%% %%% %%% 计算丰度
-        K_Ratio = array_for_abundance{9}; % K40的自然丰度
         ABUNDANCE_U = Abundance_Huang(felsic_U, mafic_U, fraction); % Row vector
         ABUNDANCE_TH = Abundance_Huang(felsic_Th, mafic_Th, fraction); % Row vector
-        ABUNDANCE_K = Abundance_Huang(felsic_K, mafic_K, fraction) ./ K_Ratio; % Row vector
+        ABUNDANCE_K = Abundance_Huang(felsic_K, mafic_K, fraction); % Row vector
 clear vp_mean vp_error vp_layer name_method felsic_U felsic_Th felsic_K mafic_U mafic_Th mafic_K;
 clear cor_end vp_f vp_m fraction;
 %%% %%% %%% Compute Abundance with Bivart %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     elseif strcmp(name_method, 'Bivariate')
-        cor_biv_sio2 = cor_array{3};
-        cor_biv_abund = cor_array{4};
-        center_vp = array_for_abundance{3};
-        u_fit_par = array_for_abundance{4};
-        th_fit_par = array_for_abundance{5};
-        k20_fit_par = array_for_abundance{6};
-        K_K20 = array_for_abundance{7}; % K在K2O的质量分数，0.83
-        temperature = TEMPERATURE';
-        pressure = PRESSURE';
-        center_vp = bsxfun(@plus, center_vp,((temperature-20)*-4*10^-4 + (pressure/10^6-600)*2*10^-4));
-        
-        ABUNDANCE_U = Abundance_Bivariate(center_vp, vp_layer, u_fit_par, cor_biv_sio2, cor_biv_abund) * 1e-6;
-        ABUNDANCE_TH = Abundance_Bivariate(center_vp, vp_layer, th_fit_par, cor_biv_sio2, cor_biv_abund) * 1e-6;
-        ABUNDANCE_K = Abundance_Bivariate(center_vp, vp_layer, k20_fit_par, cor_biv_sio2, cor_biv_abund) * 1e-2 * K_K20;
+        disp('[Compute_Cell] Bivariate is to be finished');
     end
+%%% %%% %%% Compute Abundance in LM
+elseif strcmp(name_layer, 'LM_CC')
+    cor = cor_array{3}; % abundance; column vector
+    cor = cor'; % 转换成行矢量
+    U_mean = array_for_abundance{1};
+    U_error_pos = array_for_abundance{2};
+    U_error_neg = array_for_abundance{3};
+    Th_mean = array_for_abundance{4};
+    Th_error_pos = array_for_abundance{5};
+    Th_error_neg = array_for_abundance{6};
+    K_mean = array_for_abundance{7};
+    K_error_pos = array_for_abundance{8};
+    K_error_neg = array_for_abundance{9};
+    ABUNDANCE_U = Generate_Random_Log_Normal(U_mean, U_error_pos, U_error_neg, 0, cor);
+    ABUNDANCE_TH = Generate_Random_Log_Normal(Th_mean, Th_error_pos, Th_error_neg, 0, cor);
+    ABUNDANCE_K = Generate_Random_Log_Normal(K_mean, K_error_pos, K_error_neg, 0, cor);
 %%% %%% %%% Compute Abundance in other layers %%%%%%%%%%%%%%%%%%%%%%
 else
     cor = cor_array{3}; % abundance; column vector
     cor = cor'; % 转换成行矢量
     U_mean = array_for_abundance{1};
-    U_P_error = array_for_abundance{2};
-    U_N_error = array_for_abundance{3};
-    Th_mean = array_for_abundance{4};
-    Th_P_error = array_for_abundance{5};
-    Th_N_error = array_for_abundance{6};
-    K_mean = array_for_abundance{7};
-    K_P_error = array_for_abundance{8};
-    K_N_error = array_for_abundance{9};
+    U_error = array_for_abundance{2};
+    Th_mean = array_for_abundance{3};
+    Th_error = array_for_abundance{4};
+    K_mean = array_for_abundance{5};
+    K_error = array_for_abundance{6};
 %%% %%% %%% %%% 计算丰度
-    if U_P_error == U_N_error
-        ABUNDANCE_U = Generate_Random_Normal(U_mean, U_P_error, 0, cor);
-        ABUNDANCE_TH = Generate_Random_Normal(Th_mean, Th_P_error, 0, cor);
-        ABUNDANCE_K = Generate_Random_Normal(K_mean, K_P_error, 0, cor);
-    else
-        ABUNDANCE_U = Generate_Random_Log_Normal(U_mean, U_P_error, U_N_error, 0, cor);
-        ABUNDANCE_TH = Generate_Random_Log_Normal(Th_mean, Th_P_error, Th_N_error, 0, cor);
-        ABUNDANCE_K = Generate_Random_Log_Normal(K_mean, K_P_error, K_N_error, 0, cor);
-    end
-    clear U_mean U_P_error U_N_error;
-    clear Th_mean Th_P_error Th_N_error;
-    clear K_mean K_P_error K_N_error;
+    ABUNDANCE_U = Generate_Random_Normal(U_mean, U_error, 0, cor);
+    ABUNDANCE_TH = Generate_Random_Normal(Th_mean, Th_error, 0, cor);
+    ABUNDANCE_K = Generate_Random_Normal(K_mean, K_error, 0, cor);
+    clear U_mean U_error Th_mean Th_error K_mean K_error;
 end
 ABUNDANCE_U(ABUNDANCE_U < 0) = 0;
 ABUNDANCE_TH(ABUNDANCE_TH < 0) = 0;
@@ -210,5 +194,11 @@ ABUNDANCE_K(ABUNDANCE_K < 0) = 0;
 abund_U = ABUNDANCE_U;
 abund_Th = ABUNDANCE_TH;
 abund_K = ABUNDANCE_K;
-
+%%%%%%%%%%%%%%%%%%%%%%%% Test
+    % template = zeros(1, iteration);
+    % abund_U = template;
+    % abund_Th = template;
+    % abund_K = template;
+    % clear template;
+%%% 
 end

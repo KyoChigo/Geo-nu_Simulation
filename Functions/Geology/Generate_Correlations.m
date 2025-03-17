@@ -4,7 +4,7 @@ iteration = Geology.Iteration;
 %%%%%%%%%% 随机产生相关系数 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 randoms = Generate_Random_Standard_Normal(iteration); % 所有层数厚度的关联系数都一样
-layers = {'s1', 's2', 's3', 'UC', 'MC', 'LC', 'LM'};
+layers = {'UC', 'MC', 'LC', 'LM', 's1', 's2', 's3'};
 for i = 1:length(layers)
     layer = layers{i};
     template.Vp = Generate_Random_Standard_Normal(iteration);
@@ -26,14 +26,8 @@ end
 clear layers i layer template;
 Geology = Generate_Correlations_DeepCrust(Geology, iteration);
 %%% Mantle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Geology.Mantle.Correlation = Generate_Random_Standard_Normal(iteration);
+Geology.Mantle.Correlation = Generate_Random_Standard_Normal(iteration);
 %%% BSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Geology.BSE.Correlation = Generate_Random_Standard_Normal(iteration);
-%% Mantle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Geology.Mantle.Correlation = Generate_Random_Standard_Normal(iteration);
-%% BSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Geology.BSE.Correlation = Generate_Random_Standard_Normal(iteration);
-%%%%%%%%%%%%%%%% Test %%%%%%%%%%%%%
-% Geology.BSE.Correlation = x2;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Geology.BSE.Correlation = Generate_Random_Standard_Normal(iteration);
+
 end

@@ -15,8 +15,8 @@ if(Constant == 0)
     Physics.Oscillation.Parameters.sin_theta23_square = 1e-1 * Generate_Random_Normal(5.72, 0.23, 1);
 % Mass
     Physics.Oscillation.Parameters.delta_m21_square = 1e-5 * Generate_Random_Normal(7.41, 0.21, 1); % Unit: eV^2
-    Physics.Oscillation.Parameters.delta_m31_square = 1e-3 * Generate_Random_Normal(2.437, 0.028, 1); % Unit: eV^2
     Physics.Oscillation.Parameters.delta_m32_square = 1e-3 * Generate_Random_Normal(2.437, 0.028, 1); % Unit: eV^2
+    Physics.Oscillation.Parameters.delta_m31_square = Physics.Oscillation.Parameters.delta_m32_square - Physics.Oscillation.Parameters.delta_m21_square; % Unit: eV^2
 elseif(Constant == 1)
 % Mixing angles
     Physics.Oscillation.Parameters.sin_theta12_square = 1e-1 * 3.03;
@@ -24,8 +24,8 @@ elseif(Constant == 1)
     Physics.Oscillation.Parameters.sin_theta23_square = 1e-1 * 5.72;
 % Mass
     Physics.Oscillation.Parameters.delta_m21_square = 1e-5 * 7.41; % Unit: eV^2
-    Physics.Oscillation.Parameters.delta_m31_square = 1e-3 * 2.437; % Unit: eV^2
     Physics.Oscillation.Parameters.delta_m32_square = 1e-3 * 2.437; % Unit: eV^2
+    Physics.Oscillation.Parameters.delta_m31_square = Physics.Oscillation.Parameters.delta_m32_square - Physics.Oscillation.Parameters.delta_m21_square; % Unit: eV^2
 end
 
 % cos^2(A) = 1 - sin^2(A)
@@ -47,12 +47,7 @@ cos_theta13_square = Physics.Oscillation.Parameters.cos_theta13_square;
 sin_2theta13_square = Physics.Oscillation.Parameters.sin_2theta13_square;
 cos_theta12_square = Physics.Oscillation.Parameters.cos_theta12_square;
 sin_theta12_square = Physics.Oscillation.Parameters.sin_theta12_square;
-%%%%%%%%%%%%%%%%% Survival Probability %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Pee = 1 - sin^2(2\theta_12)cos^4(theta_13)sin^2(1.27m_12^2L/E)
-% - sin^2(2\theta_13)cos^2(theta_12)sin^2(1.27m_13^2L/E)
-% - sin^2(2\theta_13)sin^2(\theta_12)sin^2(1.27m_23^2L/E)
-% = 1 + p1 * sin^2(1.27m_12^2L/E) + p2 * sin^2(1.27m_13^2L/E) + p3 * sin^2(1.27m_23^2L/E)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Physics.Oscillation.Coefficients.p1 = - sin_2theta12_square * cos_theta13_square^2;
 Physics.Oscillation.Coefficients.p2 = - sin_2theta13_square * cos_theta12_square;
 Physics.Oscillation.Coefficients.p3 = - sin_2theta13_square * sin_theta12_square;
