@@ -1,5 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Geology.Iteration = 'Input';
+Geology.Random_Seed = 'Input';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%% Lithosphere %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,22 +45,26 @@ template.Bivar.SiO2 = 'Generate_Correlations->Compute_DeepCrust()';
 Geology.Lithosphere.Model.Correlation.MC.DeepCrust = template;
 Geology.Lithosphere.Model.Correlation.LC.DeepCrust = template;
 clear template;
-%%% %%% Lithosphere.DeepCrust %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-template.Felsic.U = 'later';
-template.Felsic.Th = 'later';
-template.Felsic.K = 'later';
-template.Mafic.U = 'later';
-template.Mafic.Th = 'later';
-template.Mafic.K = 'later';
+%%% %%% Lithosphere.DeepCrust + Hunag %%%%%%%%%%%%%%%%%%%%%
+template.Felsic.U = 'Compute_Abundance_DeepCrust()';
+template.Felsic.Th = 'Compute_Abundance_DeepCrust()';
+template.Felsic.K = 'Compute_Abundance_DeepCrust()';
+template.Mafic.U = 'Compute_Abundance_DeepCrust()';
+template.Mafic.Th = 'Compute_Abundance_DeepCrust()';
+template.Mafic.K = 'Compute_Abundance_DeepCrust()';
 Geology.Lithosphere.Model.DeepCrust.Amphibolite = template;
 Geology.Lithosphere.Model.DeepCrust.Granulite = template;
 clear template;
+%%% %%% Lithosphere.DeepCrust + Bivart %%%%%%%%%%%%%%%%%%%%
+Geology.Lithosphere.Model.DeepCrust.Bivart = 'Compute_Abundance_DeepCrust()';
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%% Mantle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Geology.Mantle.Method = 'Input';
-Geology.Mantle.PREM = load("Input_Files\PREM.mat");
+Geology.Mantle.Proption_EM = 'Input';
+Geology.Mantle = load("Input_Files\PREM.mat");
 Geology.Mantle.Correlation = 'Generate_Correlations()';
 %%% %%% Abundance
 abundance_fields = {'U', 'Th', 'K'};
@@ -69,6 +74,9 @@ for ii1 = 1 : length(abundance_fields)
     Geology.Mantle.Abundance.Enriched.(field) = 'Compute_Mantle_Mass()';
 end
 %%% %%% Mass
+Geology.Mantle.Mass.Total.Total = 'Compute_Mantle_Mass()';
+Geology.Mantle.Mass.Total.U = 'Compute_Mantle_Mass()';
+Geology.Mantle.Mass.Total.Th = 'Compute_Mantle_Mass()';
 mass_fields = {'Total', 'U238', 'U235', 'U', 'Th232', 'K40'};
 for ii1 = 1 : length(mass_fields)
     field = mass_fields{ii1};
@@ -83,7 +91,7 @@ clear ii1 field;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% %%% Mass
 Geology.BSE.Mass.Total = "Compute_Mantle_Mass()";
-Geology.Bse.Mass.U = "Compute_Mantle_Mass()";
+Geology.BSE.Mass.U = "Compute_Mantle_Mass()";
 Geology.BSE.Mass.Th = "Compute_Mantle_Mass()";
 Geology.BSE.Mass.K40 = "Compute_Mantle_Mass()";
 %%% %%% Abundance

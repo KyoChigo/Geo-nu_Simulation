@@ -14,10 +14,12 @@ set_detectors={137.31, 36.43, 1000, 0.7, 5.98*10^31,[134,34];... %KamLAND - Arak
 detector_index = Physics.Detector.Index;
 detector = set_detectors(detector_index, :);
 %%% 加载 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Physics.Detector.Longitude = detector(1);
-Physics.Detector.Latitude = detector(2);
-Physics.Detector.Depth = detector(3);
-Physics.Detector.Selection_Efficiency = detector(4);
+Physics.Detector.Longitude = detector{1};
+Physics.Detector.Latitude = detector{2};
+Physics.Detector.Depth = detector{3};
+% Physics.Detector.Radius = 6371000 - detector{3};
+Physics.Detector.Radius = 0;
+Physics.Detector.Selection_Efficiency = detector{4};
 Physics.Detector.Proton_Number = detector(5);
 Physics.Detector.Clostest_Cell = detector(6);
 %%% Output message %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

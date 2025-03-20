@@ -1,6 +1,6 @@
 function Physics = Compute_Cross_Section(Physics)
 
-Energy_array = Physics.Elements.Spectrum.Energy.Bins;
+Energy_array = Physics.Elements.Spectrum.Energy.Bin_Centers;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% 计算IBD cross section %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
