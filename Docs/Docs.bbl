@@ -1,0 +1,26 @@
+\begin{thebibliography}{1}
+
+\bibitem{fiorentini2007geo}
+Gianni Fiorentini, Marcello Lissia, and Fabio Mantovani.
+\newblock Geo-neutrinos and earth's interior.
+\newblock {\em Physics Reports}, 453(5-6):117--172, 2007.
+
+\bibitem{Enomoto_Spectrum}
+Enomoto Sanshiro.
+\newblock
+  \href{{https://www.awa.tohoku.ac.jp/~sanshiro/research/geoneutrino/spectrum/}}{Geoneutrino
+  Decay Spectrum}.
+
+\bibitem{Original_GEONU}
+William McDonough Laura Sammon Keen Tytrice~Faison Yu~Huang, Scott~Wipperfurth.
+\newblock
+  \href{{https://github.com/LSKgeo/GEONU}}{https://github.com/LSKgeo/GEONU}.
+
+\bibitem{huang2013reference}
+Yu~Huang, Viacheslav Chubakov, Fabio Mantovani, Roberta~L Rudnick, and
+  William~F McDonough.
+\newblock A reference earth model for the heat-producing elements and
+  associated geoneutrino flux.
+\newblock {\em Geochemistry, Geophysics, Geosystems}, 14(6):2003--2029, 2013.
+
+\end{thebibliography}
