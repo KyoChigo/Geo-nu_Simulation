@@ -1,54 +1,23 @@
-file = "./Output/Result_2025-03-20_21-15-22.mat";
-[~, name, ~] = fileparts(file);
-Res = load(file);
-lith = Res.Output.Lithosphere.Geonu_Signal.Total.Total;
-mantle = Res.Output.Mantle.Geonu_Signal.Total.Total;
-total = lith + mantle;
-% ~~~~~~~~~~~~~~~~~~~~ Lithosphere ~~~~~~~~~~~~~~~~~~~~ %
-pd = fitdist(lith(:, 1), 'Normal');
-mean_value = pd.mu;
-sigma = pd.sigma;
-figure;
-histogram(lith, 'BinWidth', 1);
-title('Geonu Signal Distribution for Lithosphere');
-xlabel('Geonu Signal (TNU)');
-ylabel('Entries');
-xlim([0, 100]);
-grid on;
-parameter_tex = sprintf('Geonu Signal\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
-text(60, 200, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
-% text(X-value, Y_value) %
-pic_path = sprintf('./Pics/Geonu_Signals_Lithosphere_%s.jpg', name);
-print(pic_path, '-djpeg', '-r300');
-% ~~~~~~~~~~~~~~~~~~~~ Mantle ~~~~~~~~~~~~~~~~~~~~ %
-pd = fitdist(mantle(:, 1), 'Normal');
-mean_value = pd.mu;
-sigma = pd.sigma;
-figure;
-histogram(mantle, 'BinWidth', 1);
-title('Geonu Signal Distribution for Mantle');
-xlabel('Geonu Signal (TNU)');
-ylabel('Entries');
-xlim([0, 100]);
-grid on;
-parameter_tex = sprintf('Geonu Signal\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
-text(60, 600, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
-% text(X-value, Y_value) %
-pic_path = sprintf('./Pics/Geonu_Signals_Mantle_%s.jpg', name);
-print(pic_path, '-djpeg', '-r300');
-% ~~~~~~~~~~~~~~~~~~~~ Total ~~~~~~~~~~~~~~~~~~~~ %
-pd = fitdist(total(:, 1), 'Normal');
-mean_value = pd.mu;
-sigma = pd.sigma;
-figure;
-histogram(total, 'BinWidth', 1);
-title('Geonu Signal Distribution for Earth');
-xlabel('Geonu Signal (TNU)');
-ylabel('Entries');
-xlim([0, 100]);
-grid on;
-parameter_tex = sprintf('Geonu Signal\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
-text(60, 200, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
-% text(X-value, Y_value) %
-pic_path = sprintf('./Pics/Geonu_Signals_Total_%s.jpg', name);
-print(pic_path, '-djpeg', '-r300');
+addpath("./Functions/Plot/");
+% ~~~~~~~~~~~~~~~~~~~~ Plot One Experiment ~~~~~~~~~~~~~~~~~~~~ %
+% files = {"./Output/SNO+_4000_Crust1_Huang_2025-03-24_16-48-00.mat";...
+%     "./Output/KamLAND_4000_Crust1_Huang_2025-03-24_16-53-06.mat";...
+%     "./Output/Borexino_4000_Crust1_Huang_2025-03-24_16-57-32.mat";...
+%     "./Output/JUNO_4000_Crust1_Huang_2025-03-24_17-01-56.mat";...
+%     "./Output/JNE_4000_Crust1_Huang_2025-03-24_17-06-30";...
+%     };
+% for ii1 = 1 : length(files)
+%     file = files{ii1};
+%     Plot_One_Experiment(file);
+% end
+% clear files ii1 file;
+
+% ~~~~~~~~~~~~~~~~~~~~ Plot All Experiments ~~~~~~~~~~~~~~~~~~~~ %
+Items = {"SNO+", "./Output/SNO+_4000_Crust1_Huang_2025-03-24_16-48-00.mat";...
+    "KamLAND", "./Output/KamLAND_4000_Crust1_Huang_2025-03-24_16-53-06.mat";...
+    "Borexino", "./Output/Borexino_4000_Crust1_Huang_2025-03-24_16-57-32.mat";...
+    "JUNO", "./Output/JUNO_4000_Crust1_Huang_2025-03-24_17-01-56.mat";...
+    "JNE", "./Output/JNE_4000_Crust1_Huang_2025-03-24_17-06-30.mat"};
+    
+
+Plot_All_Experiments(Items);

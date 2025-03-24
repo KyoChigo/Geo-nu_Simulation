@@ -10,7 +10,8 @@ for i = 1 : length(HPEs)
     half_life = Physics.Elements.Halflife.(HPE);
     atom_mass = Physics.Elements.Mass.(HPE);
     spectrum = Physics.Elements.Spectrum.dn_dE.(HPE);
-    mass_abundance = Physics.Elements.Abundance.Mass.(HPE);
+    % mass_abundance = Physics.Elements.Abundance.Mass.(HPE);
+    mass_abundance = 1;
     geo_res = (mass_abundance/(atom_mass * am_kg)) * (log(2)/half_life) .* spectrum .* IBD .* (1/(4 * pi)) * (1e-4)* one_year * 1e32;
     % 1e-4 come form 1/m^2 to 1/cm^2
     Physics.Elements.Geonu_Response.(HPE) = geo_res;

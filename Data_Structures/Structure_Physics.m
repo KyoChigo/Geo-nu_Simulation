@@ -139,6 +139,7 @@ Physics.Constants.Others.K_K2O = (2 * 39.0983) / (2 * 39.0983 + 15.999); % Mass 
 % ~~~~~~~~~~~~~~~~~~~ Detector ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 
 Physics.Detector.Index = 'Input';
+Physics.Detector.Name = 'Load_Detector()';
 Physics.Detector.Longitude = 'Load_Detector()'; % Unit: degree %
 Physics.Detector.Latitude = 'Load_Detector()'; % Unit: degree %
 Physics.Detector.Radius = 'Load_Detector()'; % Unit: m %
