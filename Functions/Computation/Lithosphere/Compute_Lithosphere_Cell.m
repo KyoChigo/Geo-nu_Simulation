@@ -266,21 +266,21 @@ p1 = array_for_signal{4};
 p2 = array_for_signal{5};
 p3 = array_for_signal{6};
 m21 = array_for_signal{7};
-% m31 = array_for_signal{8};
-% m32 = array_for_signal{9};
+m31 = array_for_signal{8};
+m32 = array_for_signal{9};
 geonu_factor_u238 = 0;
 geonu_factor_th232 = 0;
 %%%%%%%%% Test %%%%%%%%%%%
-m32_n = abs(array_for_signal{8});
-m32_i = abs(array_for_signal{9});
+% m32_n = abs(array_for_signal{8});
+% m32_i = abs(array_for_signal{9});
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 if distance > subcell_limits(5)
     part1 = 1 + p1 .* sin(1.27 * m21 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
-    % part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, distance/1e3, energy')) .^2; % 1 * Energy %
-    % part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, distance/1e3, energy')) .^2; % 1 * Energy %
+    part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
+    part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
     %%%%%%%%%%%%%%%%% Test %%%%%%%%%%%%%%%%%
-    part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
-    part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
+    % part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
+    % part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     Pee = part1 + part2 + part3; % cell * Energy %
     volume = Compute_Cell_Volume(lon_center - 0.5, lon_center + 0.5, lat_center - 0.5, lat_center + 0.5, surface_radius - depth_center - thickness_center/2, surface_radius - depth_center + thickness_center/2);
@@ -324,10 +324,12 @@ else
             % Cell * 1 %
             sub_sub_distances = Compute_Distance(sub_sub_lons, sub_sub_lats, surface_radius, sub_sub_depths, detector);
             % Cell * 1 %
-            %%%%%%%%%%%%%%% Test %%%%%%%%%%%%%%%%%
             part1 = 1 + p1 .* sin(1.27 * m21 .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
-            part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
-            part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
+            part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
+            part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
+            %%%%%%%%%%%%%%% Test %%%%%%%%%%%%%%%%%
+            % part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
+            % part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             Pee = part1 + part2 + part3; % subcell * energy %
             % response .* Pee': Energy * Cell %

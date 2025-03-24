@@ -11,13 +11,13 @@ p1 = Physics.Oscillation.Coefficients.p1;
 p2 = Physics.Oscillation.Coefficients.p2;
 p3 = Physics.Oscillation.Coefficients.p3;
 m21 = Physics.Oscillation.Parameters.delta_m21_square;
-% m31 = Physics.Oscillation.Parameters.delta_m31_square;
-% m32 = Physics.Oscillation.Parameters.delta_m32_square;
-% array_for_signal = {Geo_Res_U238, Geo_Res_Th232, energy, p1, p2, p3, m21, m31, m32};
+m31 = Physics.Oscillation.Parameters.delta_m31_square;
+m32 = Physics.Oscillation.Parameters.delta_m32_square;
+array_for_signal = {Geo_Res_U238, Geo_Res_Th232, energy, p1, p2, p3, m21, m31, m32};
 %%%%%%%%%%% Test %%%%%%%%%%%%
-m32_n = Physics.Oscillation.Parameters.delta_m32_n_square;
-m32_i = Physics.Oscillation.Parameters.delta_m32_i_square;
-array_for_signal = {Geo_Res_U238, Geo_Res_Th232, energy, p1, p2, p3, m21, m32_n, m32_i};
+% m32_n = Physics.Oscillation.Parameters.delta_m32_n_square;
+% m32_i = Physics.Oscillation.Parameters.delta_m32_i_square;
+% array_for_signal = {Geo_Res_U238, Geo_Res_Th232, energy, p1, p2, p3, m21, m32_n, m32_i};
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 lonlat = GeoPhys.latlon; % 64800 * 2; log : lat
 surface_radius = GeoPhys.r; % 64800 * 1

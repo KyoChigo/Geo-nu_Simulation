@@ -57,11 +57,11 @@ p1 = array_for_signal{4};
 p2 = array_for_signal{5};
 p3 = array_for_signal{6};
 m21 = array_for_signal{7};
-% m31 = array_for_signal{8};
-% m32 = array_for_signal{9};
+m31 = array_for_signal{8};
+m32 = array_for_signal{9};
 %%%%%%%%%% Test %%%%%%%%%%%%
-m32_n = abs(array_for_signal{8});
-m32_i = abs(array_for_signal{9});
+% m32_n = abs(array_for_signal{8});
+% m32_i = abs(array_for_signal{9});
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 subcell_sizes = [4000, 15000, 25000, 40000, 60000]; % Unit: m %
 subcell_limits = [100000,160000,280000,600000,1000000]; % Unit: m %
@@ -73,9 +73,11 @@ for ii2 = 1 : length(THICK_LARGE_LAYERS)
 
     if distance > subcell_limits(5)
         part1 = 1 + p1 .* sin(1.27 * m21 .* bsxfun(@rdivide, distance, energy')) .^2 ; % 1 * Energy %
+        part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
+        part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
         %%%%%%%%%%% Test %%%%%%%%%%%%%%%%
-        part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
-        part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
+        % part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
+        % part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         Pee = part1 + part2 + part3;
         factor_u238 = sum(MASS_LARGE_LAYERS(ii2, 1) .* (response_u238 .* Pee')', 2); % 1 * 1 %
@@ -108,9 +110,11 @@ for ii2 = 1 : length(THICK_LARGE_LAYERS)
         for ii3 = 1 : length(sub_lons)
             sub_distance = sub_distances(ii3, 1);
             part1 = 1 + p1 .* sin(1.27 .* m21 .* bsxfun(@rdivide, sub_distance, energy')) .^ 2; % 1 * Energy %
+            part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, sub_distance, energy')) .^2; % 1 * Energy %
+            part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, sub_distance, energy')) .^2; % 1 * Energy %
             %%%%%%%%%%%%% Test %%%%%%%%%%%%%%%%%%%%%
-            part2 = p2 .* sin(1.27 .* m32_n .* bsxfun(@rdivide, sub_distance, energy')) .^ 2; % 1 * Energy %
-            part3 = p3 .* sin(1.27 .* m32_i .* bsxfun(@rdivide, sub_distance, energy')) .^ 2; % 1 * Energy %
+            % part2 = p2 .* sin(1.27 .* m32_n .* bsxfun(@rdivide, sub_distance, energy')) .^ 2; % 1 * Energy %
+            % part3 = p3 .* sin(1.27 .* m32_i .* bsxfun(@rdivide, sub_distance, energy')) .^ 2; % 1 * Energy %
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             Pee = part1 + part2 + part3;
             density = PREM(round(sub_depths(ii3, 1)/1000), 3); % Unit: kg/m^3

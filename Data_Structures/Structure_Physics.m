@@ -22,8 +22,8 @@ Physics.Oscillation.Parameters.sin_2theta23_square = 'Load_Oscillation_Parameter
 Physics.Oscillation.Parameters.cos_2theta23_square = 'Load_Oscillation_Parameters()';
 
 Physics.Oscillation.Parameters.delta_m21_square = 'Load_Oscillation_Parameters()'; % Unit: eV^2 %
-Physics.Oscillation.Parameters.delta_m32_square_NO = 'Load_Oscillation_Parameters()'; % Unit: eV^2 %
-Physics.Oscillation.Parameters.delta_m32_square_IO = 'Load_Oscillation_Parameters()'; % Unit: eV^2 %
+Physics.Oscillation.Parameters.delta_m31_square = 'Load_Oscillation_Parameters()'; % Unit: eV^2 %
+Physics.Oscillation.Parameters.delta_m32_square = 'Load_Oscillation_Parameters()'; % Unit: eV^2 %
 
 % % Oscillation.Coefficients % %
 Physics.Oscillation.Coefficients.p1 = 'Load_Oscillation_Parameters()';

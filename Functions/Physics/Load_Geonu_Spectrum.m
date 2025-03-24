@@ -4,9 +4,9 @@ function Physics = Load_Geonu_Spectrum(Physics)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Enomoto = load("Input_Files\Enomoto2007_AntineutrinoSpectrum.mat");
 %%% load energy bins %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-binwidth = 0.075; % Unit: MeV
+binwidth = 0.1; % Unit: MeV
 Physics.Elements.Spectrum.Energy.Binwidth = binwidth; % Unit: MeV
-Physics.Elements.Spectrum.Energy.Bin_Centers = (0 + 0.5 * binwidth:binwidth:3.3)'; % Unit: MeV
+Physics.Elements.Spectrum.Energy.Bin_Centers = (0 + 0.5 * binwidth:binwidth:3.5)'; % Unit: MeV
 %%% 创建0数组 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 template = 0 .* Physics.Elements.Spectrum.Energy.Bin_Centers;
 Physics.Elements.Spectrum.dn_dE.U238 = template;
