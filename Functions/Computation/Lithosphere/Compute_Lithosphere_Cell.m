@@ -270,25 +270,18 @@ m31 = array_for_signal{8};
 m32 = array_for_signal{9};
 geonu_factor_u238 = 0;
 geonu_factor_th232 = 0;
-%%%%%%%%% Test %%%%%%%%%%%
-% m32_n = abs(array_for_signal{8});
-% m32_i = abs(array_for_signal{9});
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 if distance > subcell_limits(5)
     part1 = 1 + p1 .* sin(1.27 * m21 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
     part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
     part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
-    %%%%%%%%%%%%%%%%% Test %%%%%%%%%%%%%%%%%
-    % part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
-    % part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     Pee = part1 + part2 + part3; % cell * Energy %
     volume = Compute_Cell_Volume(lon_center - 0.5, lon_center + 0.5, lat_center - 0.5, lat_center + 0.5, surface_radius - depth_center - thickness_center/2, surface_radius - depth_center + thickness_center/2);
     factor_u238 = sum(volume .* response_u238 .* Pee'); % Cell * 1 %
     factor_th232 = sum(volume .* response_th232 .* Pee'); % Cell * 1 %
-    % Unit: m^3 %
-    geonu_factor_u238 = factor_u238  ./ (distance .^ 2);
-    geonu_factor_th232 = factor_th232 ./ (distance .^2);
+    % Unit: m^5/kg %
+    geonu_factor_u238 = factor_u238  ./ (distance .^ 2); % Unit: m^3/kg %
+    geonu_factor_th232 = factor_th232 ./ (distance .^2); % Unit: m^3/kg %
     % % Clear Vairables % %
     clear part1 part2 part3 Pee;
     clear volume factor_u238 factor_th232;
@@ -327,20 +320,13 @@ else
             part1 = 1 + p1 .* sin(1.27 * m21 .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
             part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
             part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
-            %%%%%%%%%%%%%%% Test %%%%%%%%%%%%%%%%%
-            % part2 = p2 .* sin(1.27 * m32_n .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
-            % part3 = p3 .* sin(1.27 * m32_i .* bsxfun(@rdivide, sub_sub_distances, energy')) .^2; % Cell * Energy %
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             Pee = part1 + part2 + part3; % subcell * energy %
-            % response .* Pee': Energy * Cell %
-            % sub_sub_volumes: cell * 1 %
-            % sub_sub_vlumes .* ()': cell * 1 * cell * energy %
             factor_u238 = sum(sub_sub_volumes .* (response_u238 .* Pee')' , 2); % cell * 1 %
             factor_th232 = sum(sub_sub_volumes .* (response_th232 .* Pee')', 2); % cell * 1 %
             unit_geonu_factor_u238 = factor_u238 ./ (sub_sub_distances .^ 2); % cell * 1 %
             unit_geonu_factor_th232 = factor_th232 ./ (sub_sub_distances .^ 2); % cell * 1 %
-            geonu_factor_u238 = geonu_factor_u238 + sum(unit_geonu_factor_u238, 1);
-            geonu_factor_th232 = geonu_factor_th232 + sum(unit_geonu_factor_th232, 1);
+            geonu_factor_u238 = geonu_factor_u238 + sum(unit_geonu_factor_u238, 1);  % Unit: m^3/kg %
+            geonu_factor_th232 = geonu_factor_th232 + sum(unit_geonu_factor_th232, 1);  % Unit: m^3/kg %
             % % % Clear Variables % % %
             clear sub_sub_lons sub_sub_lats sub_sub_depths lon_sub_sub_interval lat_sub_sub_interval thick_sub_sub_interval;
             clear sub_sub_volumes sub_sub_distances;

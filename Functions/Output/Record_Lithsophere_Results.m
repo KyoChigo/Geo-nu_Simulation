@@ -1,3 +1,4 @@
+% ~~~~~~~~~~~~~~~~~~~~ Each Layer ~~~~~~~~~~~~~~~~~~~~ %
 Output.Lithosphere.Mass.(name_layer).Total = sum(total_mass, 1)';
 Output.Lithosphere.Mass.(name_layer).U = sum(mass_u, 1)';
 Output.Lithosphere.Mass.(name_layer).Th = sum(mass_th, 1)';
@@ -5,7 +6,7 @@ Output.Lithosphere.Geonu_Signal.(name_layer).Total = sum(signal_u + signal_th, 1
 Output.Lithosphere.Geonu_Signal.(name_layer).U238 = sum(signal_u, 1)';
 Output.Lithosphere.Geonu_Signal.(name_layer).Th232 = sum(signal_th, 1)';
 
-
+% ~~~~~~~~~~~~~~~~~~~~ LM and Total ~~~~~~~~~~~~~~~~~~~~ %
 if strcmp(name_layer, 'LM')
     layers = {'s1', 's2', 's3', 'UC', 'MC', 'LC', 'LM'};
     template = 0 .* Output.Lithosphere.Mass.s1.Total;
@@ -27,4 +28,5 @@ if strcmp(name_layer, 'LM')
     end
     Output.Lithosphere.Geonu_Signal.Total.Total = Output.Lithosphere.Geonu_Signal.Total.U238 + Output.Lithosphere.Geonu_Signal.Total.Th232;
     clear template layers layer;
+    
 end

@@ -1,17 +1,18 @@
 function Geology = Load_Lithosphere_Data(Geology)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% 加载Lithosphere数据 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 加载或定义需要用到的变量 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ~~~~~~~~~~~~~~~~~~~~ Load Data for Lithosphere ~~~~~~~~~~~~~~~~~~~~ %
+% % ~~~~~~~~~~~~~~~~~~~~ Load Data ~~~~~~~~~~~~~~~~~~~~ % %
+% % Define Temp Variables % %
 set_lithosphere_models = {'Litho1','Crust1','Crust2','ECM1'};
 model_index = 0;
 model_name = 0;
 model_data = 0;
-%%% 读取model的名字 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Get Name % %
 model_index = Geology.Lithosphere.Model.Index;
 model_name = set_lithosphere_models{model_index};
 Geology.Lithosphere.Model.Name = model_name;
-%%% 根据model加载对应数据 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % Load % %
 if strcmp(model_name, 'Litho1')
     model_data = load("Input_Files\LithosphereModels\LITHO1_Data.mat");
     Geology.Lithosphere.Model.Data = model_data;
@@ -31,10 +32,11 @@ elseif strcmp(model_name, 'ECM1')
 end
 Geology.Lithosphere.Model.GeoPhys.Name = model_name;
 Geology.Lithosphere.Model.Data.Bivar = load("Input_Files\BivarData_04042018.mat");
-%%% 根据数据指定OC和CC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % ~~~~~~~~~~~~~~~~~~~~ Assign OC and CC  ~~~~~~~~~~~~~~~~~~~~% %
 Geology = Assign_OC_CC(Geology);
-%%% 预加载一些变量 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % ~~~~~~~~~~~~~~~~~~~~ Preallocate Variables ~~~~~~~~~~~~~~~~~~~~ % %
 Geology = Allocate_Variables_Lithosphere(Geology);
-% Output message
-% disp('[Geology] Geology is complete');
+
 end

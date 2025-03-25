@@ -1,12 +1,15 @@
 function Geology = Assign_Abundance_Layer(Geology, Name_Layer, abund_U, abund_Th, abund_K)
-%%% 指定U、Th和K的丰度；注意K包括所有K元素而非K40
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% 加载Detector数据 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% abundance_element: g/g
+% ~~~~~~~~~~~~~~~~~~~~ Assigna Abudance of Layers ~~~~~~~~~~~~~~~~~~~~ %
+% Abundance             : g/g                                          %
+% 指定U、Th和K的丰度；注意K包括所有K元素而非K40                           %
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+
+% % ~~~~~~~~~~~~~~~~~~~~ OC and CC Index ~~~~~~~~~~~~~~~~~~~~ % %
 logical_oc = Geology.Lithosphere.Model.Logical.OC;
 logical_cc = Geology.Lithosphere.Model.Logical.CC;
 layers = {'null'};
+
+% % ~~~~~~~~~~~~~~~~~~~~ OC in UC, MC and LC ~~~~~~~~~~~~~~~~~~~~ % %
 if strcmp(Name_Layer, 'OC')
     layers = {'UC', 'MC', 'LC'};
     for i = 1 : length(layers)
@@ -19,6 +22,7 @@ if strcmp(Name_Layer, 'OC')
         end
         end
     end
+% % ~~~~~~~~~~~~~~~~~~~~ CC in UC ~~~~~~~~~~~~~~~~~~~~ % %
 elseif strcmp(Name_Layer, 'UC_CC')
     for i = 1 : length(logical_oc)
         if(logical_cc(i) == true)
@@ -27,6 +31,7 @@ elseif strcmp(Name_Layer, 'UC_CC')
             Geology.Lithosphere.Model.Abundance.UC.K(i, :) = abund_K;
         end
     end
+% % ~~~~~~~~~~~~~~~~~~~~ CC in LM ~~~~~~~~~~~~~~~~~~~~ % %
 elseif strcmp(Name_Layer, 'LM_CC')
     for i = 1 : length(logical_oc)
         if(logical_cc(i) == true)
@@ -35,6 +40,7 @@ elseif strcmp(Name_Layer, 'LM_CC')
             Geology.Lithosphere.Model.Abundance.LM.K(i, :) = abund_K;
         end
     end
+% % ~~~~~~~~~~~~~~~~~~~~ Sediment ~~~~~~~~~~~~~~~~~~~~ % %
 elseif strcmp(Name_Layer, 'Sed')
     layers = {'s1', 's2', 's3'};
     for i = 1 : length(layers)
@@ -47,4 +53,5 @@ elseif strcmp(Name_Layer, 'Sed')
     end
 end
 clear logical_oc logical_cc layers layer i;
+
 end

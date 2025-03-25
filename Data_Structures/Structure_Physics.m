@@ -1,4 +1,4 @@
-% ~~~~~~~~~~~~~~~~~~~ Oscillation ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+% ~~~~~~~~~~~~~~~~~~~~ Oscillation ~~~~~~~~~~~~~~~~~~~~ %
 % % Oscillation.Constant % %
 Physics.Oscillation.Constant = 1; % Bool %
 
@@ -29,9 +29,8 @@ Physics.Oscillation.Parameters.delta_m32_square = 'Load_Oscillation_Parameters()
 Physics.Oscillation.Coefficients.p1 = 'Load_Oscillation_Parameters()';
 Physics.Oscillation.Coefficients.p2 = 'Load_Oscillation_Parameters()';
 Physics.Oscillation.Coefficients.p3 = 'Load_Oscillation_Parameters()';
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 
-% ~~~~~~~~~~~~~~~~~~~ Elements ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+% ~~~~~~~~~~~~~~~~~~~~ Elements ~~~~~~~~~~~~~~~~~~~~ %
 % % Elements.Halflife % %
 % % % From Wiki % % %
 Physics.Elements.Halflife.U238 = 4.468e9 * 365 * 86400; % Unit: s %
@@ -111,17 +110,12 @@ Physics.Elements.Geonu_Flux.U235 = 319.9 * 1e6; % Unit: 1/(s kg) %
 Physics.Elements.Geonu_Flux.Th232 = 16.2 * 1e6; % Unit: 1/(s kg) %
 Physics.Elements.Geonu_Flux.K = 27.1 * 1e-3 * 1e6; % Unit: 1/(s kg). Calculate by mole abundance %
 Physics.Elements.Geonu_Flux.K40 = 231.2 * 1e6; % Unit: 1/(s kg) %
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 
-% ~~~~~~~~~~~~~~~~~~~  Cross_Section ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-
+% ~~~~~~~~~~~~~~~~~~~  Cross_Section ~~~~~~~~~~~~~~~~~~~~ %
 Physics.Cross_Section.Energy = 'Compute_Cross_Section()';
 Physics.Cross_Section.IBD = 'Compute_Cross_Section()';
 
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-
-% ~~~~~~~~~~~~~~~~~~~ Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-
+% ~~~~~~~~~~~~~~~~~~~ Constants ~~~~~~~~~~~~~~~~~~~~ %
 % % Constants.Unit_Conversion % %
 % % % From Wiki % % %
 Physics.Constants.Unit_Conversion.cm_m = 1e-2;
@@ -134,10 +128,8 @@ Physics.Constants.Unit_Conversion.amu_kg = 1.66053906892e-27;
 % % % From Wiki % % %
 Physics.Constants.Others.Avogadro = 6.02214076e23;
 Physics.Constants.Others.K_K2O = (2 * 39.0983) / (2 * 39.0983 + 15.999); % Mass ratio of K in K2O; use it in Deep Crust %
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 
-% ~~~~~~~~~~~~~~~~~~~ Detector ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-
+% ~~~~~~~~~~~~~~~~~~~ Detector ~~~~~~~~~~~~~~~~~~~~ %
 Physics.Detector.Index = 'Input';
 Physics.Detector.Name = 'Load_Detector()';
 Physics.Detector.Longitude = 'Load_Detector()'; % Unit: degree %
@@ -147,13 +139,12 @@ Physics.Detector.Depth = 'Load_Detector()'; % Unit: m %
 Physics.Detector.Selection_Efficiency = 'Load_Detector()';
 Physics.Detector.Proton_Number = 'Load_Detector()';
 Physics.Detector.Clostest_Cell = [0, 0]; % Unit: degree %
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 
-% ~~~~~~~~~~~~~~~~~~~  Load Physics ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-
+% ~~~~~~~~~~~~~~~~~~~  Load Physics ~~~~~~~~~~~~~~~~~~~~ %
 Physics = Load_Oscillation_Parameters(Physics);
 Physics = Load_Geonu_Spectrum(Physics);
 Physics = Compute_Cross_Section(Physics);
 Physics = Compute_Geonu_Response(Physics);
-%%% Output message %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% disp('[Constants_Physics] Physics data structure is complete');
+
+% ~~~~~~~~~~~~~~~~~~~~ Output message ~~~~~~~~~~~~~~~~~~~~ %
+disp('[Constants_Physics] Physics data structure is complete');

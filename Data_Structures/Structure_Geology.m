@@ -1,33 +1,35 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ~~~~~~~~~~~~~~~~~~~~ Run Info ~~~~~~~~~~~~~~~~~~~~ %
 Geology.Iteration = 'Input';
 Geology.Random_Seed = 'Input';
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%% Lithosphere %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% %%% Lithosphere.Model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ~~~~~~~~~~~~~~~~~~~~ Lithosphere ~~~~~~~~~~~~~~~~~~~~ %
+% % Lithosphere.Model % %
 Geology.Lithosphere.Model.Index = 'Input';
 Geology.Lithosphere.Model.Name = 'Load_Lithosphere_Data()';
 Geology.Lithosphere.Model.Data = 'Load_Lithosphere_Data()';
 Geology.Lithosphere.Model.GeoPhys = 'Load_Lithosphere_Data()';
-%%% %%% %%% Model.Method %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % % Lithosphere.Model.Method % % %
 Geology.Lithosphere.Model.Method.Near_Field = 'Input';
 Geology.Lithosphere.Model.Method.Deep_Crust = 'Input';
-%%% %%% %%% Model.Logical %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % % Lithosphere.Model.Logical % % %
 Geology.Lithosphere.Model.Logical.OC = 'Load_Lithosphere_Data->Assign_OC_CC()';
 Geology.Lithosphere.Model.Logical.CC = 'Load_Lithosphere_Data->Assign_OC_CC()';
 Geology.Lithosphere.Model.Logical.Near_Field = 'Find_Near_Field_Cells()';
-%%% %%% %%% Model.Abundance %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-template.U = 'Input'; % Unit: g/g
-template.Th = 'Input'; % Unit: g/g
-template.K = 'Input'; % Unit: g/g
+
+% % % Lithosphere.Model.Abundance % % %
+template.U = 'Input'; % Unit: g/g %
+template.Th = 'Input'; % Unit: g/g %
+template.K = 'Input'; % Unit: g/g %
 layers = {'OC', 'CC', 'UC', 'MC', 'LC', 'LM', 's1', 's2', 's3'};
 for i = 1 : length(layers)
     layer = layers{i};
     Geology.Lithosphere.Model.Abundance.(layer) = template;
 end
 clear template layers i layer;
-%%% %%% %%% Model.Correlation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % % Lithosphere.Model.Correlation % % %
 template.Vp = 'Generate_Correlations()';
 template.Abundance = 'Generate_Correlations()';
 template.Thickness = 'Generate_Correlations()';
@@ -37,7 +39,8 @@ for i = 1 : length(layers)
     Geology.Lithosphere.Model.Correlation.(layer) = template;% Unit: g/g
 end
 clear template layers i layer;
-%%% %%% Correlation.xx.DeepCrust
+
+% % % Lithosphere.Mode.Correlation.MC/LC.DeepCrust % % %
 template.End.Abundance = 'Generate_Correlations()';
 template.End.Vp = 'Generate_Correlations()';
 template.Bivar.Abundance = 'Generate_Correlations()';
@@ -45,7 +48,8 @@ template.Bivar.SiO2 = 'Generate_Correlations->Compute_DeepCrust()';
 Geology.Lithosphere.Model.Correlation.MC.DeepCrust = template;
 Geology.Lithosphere.Model.Correlation.LC.DeepCrust = template;
 clear template;
-%%% %%% Lithosphere.DeepCrust + Hunag %%%%%%%%%%%%%%%%%%%%%
+
+% % % Lithosphere.Model.DeepCrust: Hunag % % %
 template.Felsic.U = 'Compute_Abundance_DeepCrust()';
 template.Felsic.Th = 'Compute_Abundance_DeepCrust()';
 template.Felsic.K = 'Compute_Abundance_DeepCrust()';
@@ -55,25 +59,24 @@ template.Mafic.K = 'Compute_Abundance_DeepCrust()';
 Geology.Lithosphere.Model.DeepCrust.Amphibolite = template;
 Geology.Lithosphere.Model.DeepCrust.Granulite = template;
 clear template;
-%%% %%% Lithosphere.DeepCrust + Bivart %%%%%%%%%%%%%%%%%%%%
+
+% % % Lithosphere.Model.DeepCrust: Bivart % % %
 Geology.Lithosphere.Model.DeepCrust.Bivart = 'Compute_Abundance_DeepCrust()';
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%% Mantle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ~~~~~~~~~~~~~~~~~~~~ Mantle ~~~~~~~~~~~~~~~~~~~~ %
 Geology.Mantle.Method = 'Input';
 Geology.Mantle.Proption_EM = 'Input';
 Geology.Mantle = load("Input_Files\PREM.mat");
 Geology.Mantle.Correlation = 'Generate_Correlations()';
-%%% %%% Abundance
+% % Mantle.Abundance % %
 abundance_fields = {'U', 'Th', 'K'};
 for ii1 = 1 : length(abundance_fields)
     field = abundance_fields{ii1};
     Geology.Mantle.Abundance.Depleted.(field) = 'Compute_Mantle_Mass()';
     Geology.Mantle.Abundance.Enriched.(field) = 'Compute_Mantle_Mass()';
 end
-%%% %%% Mass
+
+% % Mantle.Mass % %
 Geology.Mantle.Mass.Total.Total = 'Compute_Mantle_Mass()';
 Geology.Mantle.Mass.Total.U = 'Compute_Mantle_Mass()';
 Geology.Mantle.Mass.Total.Th = 'Compute_Mantle_Mass()';
@@ -85,25 +88,23 @@ for ii1 = 1 : length(mass_fields)
 end
 clear abundance_fields mass_fields;
 clear ii1 field;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%% BSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% %%% Mass
+
+% ~~~~~~~~~~~~~~~~~~~~ BSE ~~~~~~~~~~~~~~~~~~~~ %
+% % BSE.Mass % %
 Geology.BSE.Mass.Total = "Compute_Mantle_Mass()";
 Geology.BSE.Mass.U = "Compute_Mantle_Mass()";
 Geology.BSE.Mass.Th = "Compute_Mantle_Mass()";
 Geology.BSE.Mass.K40 = "Compute_Mantle_Mass()";
-%%% %%% Abundance
+
+% % BSE.Abundance % %
 Geology.BSE.Abundance.U_Mean = 'Input';
 Geology.BSE.Abundance.U = 'Compute_Abundance_BSE()';
 Geology.BSE.Abundance.Th = 'Compute_Abundance_BSE()';
 Geology.BSE.Abundance.K = 'Compute_Abundance_BSE()';
-%%% %%% Correlation
+
+% % BSE.Correlation % %
 Geology.BSE.Correlation = 'Generate_Correlations()';
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%% Other %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ~~~~~~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~ %
 Geology.Other.Earth.Mass = 'Compute_Mantle_Mass()';
 Geology.Other.Core.Mass = 'Compute_Mantle_Mass()';

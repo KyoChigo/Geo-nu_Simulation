@@ -1,8 +1,6 @@
 function Geology = Assign_OC_CC(Geology)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% 根据数据指定哪些是OC哪些是CC %%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 加载或定义需要用到的变量 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ~~~~~~~~~~~~~~~~~~~~ Assign OC and CC ~~~~~~~~~~~~~~~~~~~~ %
+% % ~~~~~~~~~~~~~~~~~~~~ Define Temp Variables ~~~~~~~~~~~~~~~~~~~~ % %
 model_name = Geology.Lithosphere.Model.Name;
 GeoPhys = Geology.Lithosphere.Model.GeoPhys;
 len = length(GeoPhys.type);
@@ -11,14 +9,14 @@ OC_types = 0;
 len_types = 0;
 Logical.OC = zeros(len, 1);
 Logical.CC = zeros(len, 1);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%% 开始指定 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% %%% If Crust 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % ~~~~~~~~~~~~~~~~~~~~ Start Assigning OC and CC ~~~~~~~~~~~~~~~~~~~~ % %
+% % % ~~~~~~~~~~~~~~~~~~~~ Crust 1 ~~~~~~~~~~~~~~~~~~~~ % % %
 if strcmp(model_name, 'Crust1')
-    %%% %%% %%% 定义需要用到的变量
+    % % Temp Variables % %
     OC_types = [26,27,28,31,36];
     len_types = length(OC_types);
-    %%% %%% %%% 寻找OC
+    % % Find OC % %
     for i = 1: len
         geophys_type_value = GeoPhys.type(i, 3);
         for j = 1: len_types
@@ -28,15 +26,16 @@ if strcmp(model_name, 'Crust1')
             end
         end
     end
-    %%% %%% %%% 寻找CC
+    % % Find CC % %
     Logical.CC = ~Logical.OC;
-%%% %%% If Crust 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % % ~~~~~~~~~~~~~~~~~~~~ Crust 2 ~~~~~~~~~~~~~~~~~~~~ % % %
 elseif strcmp(model_name, 'Crust2')
-    %%% %%% %%% 定义需要用到的变量
+    % % Temp Variables % %
     OC_types = {'A0';'A1';'A2';'A3';'A4';'A5';'A6';'A7';'A8';'A9';'AA';'AB';...
         'AC';'BO';'B1';'B2';'B3';'B4';'B5';'B6';'B7';'B8';'B9';'BA';'BB';'BC';'BD'}; 
     len_types = length(OC_types);
-    %%% %%% %%% 寻找OC
+    % % Find OC % %
     for i = 1: len
         geophys_type_value = GeoPhys.type(i, 1);
         for j = 1: len_types
@@ -46,17 +45,21 @@ elseif strcmp(model_name, 'Crust2')
             end
         end
     end
-    %%% %%% %%% 寻找CC
+    % % Find CC % %
     Logical.CC = ~Logical.OC;
-%%% %%% Litho1 和 ECM1 都已经指定好OC和CC了 %%%%%%%%%%%%%%%%%%
+
+% % % ~~~~~~~~~~~~~~~~~~~~ Litho1 and ECM1 ~~~~~~~~~~~~~~~~~~~~% % %
 elseif strcmp(model_name, 'Litho1') || strcmp(model_name, 'ECM1')
     Logical.OC = Geology.Lithosphere.Model.Data.oc;
     Logical.CC = Geology.Lithosphere.Model.Data.cc;
 end
 
+% ~~~~~~~~~~~~~~~~~~~~ Record ~~~~~~~~~~~~~~~~~~~~ %
 Geology.Lithosphere.Model.Logical.OC = Logical.OC;
 Geology.Lithosphere.Model.Logical.CC = Logical.CC;
-% Output message
-% disp('[Geology::Assign_OC_CC] Logical OC and CC are complete');
+
+% ~~~~~~~~~~~~~~~~~~~~ Output Message ~~~~~~~~~~~~~~~~~~~~ %
+disp('[Geology::Assign_OC_CC] Logical OC and CC are complete');
+
 end
 

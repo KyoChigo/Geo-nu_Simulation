@@ -1,4 +1,4 @@
-% % Record % %
+% ~~~~~~~~~~~~~~~~~~~~ Record ~~~~~~~~~~~~~~~~~~~~ %
 Output.Mantle.Geonu_Signal.Depleted.U238 = sum(SIGNAL_U_DM, 1)';
 Output.Mantle.Geonu_Signal.Depleted.Th232 = sum(SIGNAL_TH_EM, 1)';
 Output.Mantle.Geonu_Signal.Depleted.Total = Output.Mantle.Geonu_Signal.Depleted.U238 + Output.Mantle.Geonu_Signal.Depleted.Th232;
