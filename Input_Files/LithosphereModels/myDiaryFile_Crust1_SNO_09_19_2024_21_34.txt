@@ -1,1 +1,0 @@
-load('D:\Geo-nu\Geonutest-master\InputFiles\PREM.mat')

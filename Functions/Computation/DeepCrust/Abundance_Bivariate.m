@@ -10,4 +10,6 @@ eplus = exp(param(probability,1)+param(probability,2)); % convert log-values to 
 eminus = exp(param(probability,1)-param(probability,2));
 
 abundance = Generate_Random_Log_Normal(mean,eplus,eminus,0,cor_abund); 
+abundance = abundance'; % Row Vector %
+
 end
