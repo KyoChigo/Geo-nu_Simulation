@@ -21,10 +21,3 @@ surface_radius = GeoPhys.r; % 64800 * 1 %
 OC = Geology.Lithosphere.Model.Logical.OC; % 用于MC、LC、LM的丰度计算 %
 name_model = Geology.Lithosphere.Model.Name;
 name_deepcrust = Geology.Lithosphere.Model.Method.Deep_Crust;
-% % ~~~~~~~~~~~~~~~~~~~~ Preallocate ~~~~~~~~~~~~~~~~~~~~ % %
-temp_pressure = zeros(len, iteration);
-total_mass = zeros(len, iteration);
-mass_u = zeros(len, iteration);
-mass_th = zeros(len, iteration);
-signal_u = zeros(len, iteration);
-signal_th = zeros(len, iteration);

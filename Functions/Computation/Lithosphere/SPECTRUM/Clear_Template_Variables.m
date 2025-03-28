@@ -1,6 +1,6 @@
 clear GeoPhys;
 clear Geo_Res_U238 Geo_Res_Th232 energy;
-clear p1 p2 p3 m21;
+clear p1 p2 p3 m21 m31 m32;
 
 clear lonlat surface_radius OC name_model;
 clear total_mass mass_u mass_th signal_u signal_th;
@@ -25,5 +25,4 @@ clear am_u am_th am_k20 k_k20;
 end
 
 clear name_deepcrust name_layer;
-
-clear endtime;
+clear SPECTRUM_U SPECTRUM_TH;
