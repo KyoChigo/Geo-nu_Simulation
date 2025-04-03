@@ -1,0 +1,2 @@
+
+The files new_flux_232Th.txt and new_flux_238Th.txt represent the updated computed energy spectra from our work. Compared to the Enomoto spectra, our calculations incorporate updates from the latest nuclear databases and the contributions of forbidden decays. The files new_flux_232Th.txt and new_flux_238Th.txt provide the geoneutrino energy spectra with a bin width of 1 keV, presented in the same format as Enomoto's spectra (https://www.awa.tohoku.ac.jp/~sanshiro/research/geoneutrino/spectrum/).

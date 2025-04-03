@@ -18,9 +18,10 @@ for i = 1 : length(HPEs)
     atom_mass = Physics.Elements.Mass.(HPE);
     spectrum = Physics.Elements.Spectrum.dn_dE.(HPE);
     mass_abundance = Physics.Elements.Abundance.Mass.(HPE);
-    geo_res = (mass_abundance/(atom_mass * am_kg)) * (log(2)/half_life) .* spectrum .* IBD .* (1/(4 * pi)) * (1e-4)* one_year * 1e32;
-    % 1e-4 come form 1/cm^2 to 1/m^2 %
-    Physics.Elements.Geonu_Response.(HPE) = geo_res; % Unit: m^2/kg %
+    flux_res = (mass_abundance / (atom_mass * am_kg)) * (log(2) / half_life) .* spectrum .* (1/(4 * pi));
+    sig_res = flux_res .* IBD  .* (1e-4) .* one_year .* 1e32; % 1e-4 come form 1/cm^2 to 1/m^2 %
+    Physics.Elements.Signal_Response.(HPE) = sig_res; % Unit: m^2/kg %
+    Physics.Elements.Flux_Response.(HPE) = flux_res;
 end
 
 % ~~~~~~~~~~~~~~~~~~~~ Output Message ~~~~~~~~~~~~~~~~~~~~ %

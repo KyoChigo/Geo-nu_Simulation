@@ -87,11 +87,17 @@ Physics.Elements.Spectrum.Total_Number.U235 = 'Load_Geonu_Specturm()';
 Physics.Elements.Spectrum.Total_Number.Th232 = 'Load_Geonu_Specturm()';
 Physics.Elements.Spectrum.Total_Number.K40 = 'Load_Geonu_Specturm()';
 
-% % Elements.Geonu_Response % %
-Physics.Elements.Geonu_Response.U238 = 'Compute_Geonu_Response()';
-Physics.Elements.Geonu_Response.U235 = 'Compute_Geonu_Response()';
-Physics.Elements.Geonu_Response.Th232 = 'Compute_Geonu_Response()';
-Physics.Elements.Geonu_Response.K40 = 'Compute_Geonu_Response()';
+% % Elements.Signal_Response % %
+Physics.Elements.Signal_Response.U238 = 'Compute_Geonu_Response()';
+Physics.Elements.Signal_Response.U235 = 'Compute_Geonu_Response()';
+Physics.Elements.Signal_Response.Th232 = 'Compute_Geonu_Response()';
+Physics.Elements.Signal_Response.K40 = 'Compute_Geonu_Response()';
+
+% % Elements.Flux_Response % %
+Physics.Elements.Flux_Response.U238 = 'Compute_Geonu_Response()';
+Physics.Elements.Flux_Response.U235 = 'Compute_Geonu_Response()';
+Physics.Elements.Flux_Response.Th232 = 'Compute_Geonu_Response()';
+Physics.Elements.Flux_Response.K40 = 'Compute_Geonu_Response()';
 
 % % Elements.Heat_Power % %
 % % % From S. T. Dye: https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2012RG000400 % % % 

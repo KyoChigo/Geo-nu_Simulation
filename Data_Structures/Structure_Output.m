@@ -30,7 +30,7 @@ clear ii1 ii2 ii3
 
 % ~~~~~~~~~~~~~~~~~~~~ Mantle ~~~~~~~~~~~~~~~~~~~~ %
 % % Geonu Signal % %
-Interests_fields = {'Geonu_Signal', 'Geonu_Spectrum'};
+Interests_fields = {'Geonu_Signal', 'Geonu_Spectrum', 'Geonu_Flux', 'Heat_Power'};
 Layers = {'Depleted', 'Enriched', 'Total'};
 Items_fields = {'Total', 'U238', 'Th232'};
 for ii1 = 1 : length(Interests_fields)

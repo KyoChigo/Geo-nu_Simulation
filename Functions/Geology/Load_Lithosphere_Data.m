@@ -37,6 +37,6 @@ Geology.Lithosphere.Model.Data.Bivar = load("Input_Files\BivarData_04042018.mat"
 Geology = Assign_OC_CC(Geology);
 
 % % ~~~~~~~~~~~~~~~~~~~~ Preallocate Variables ~~~~~~~~~~~~~~~~~~~~ % %
-Geology = Allocate_Variables_Lithosphere(Geology);
+Geology = Preallocate_Variables_Lithosphere(Geology);
 
 end

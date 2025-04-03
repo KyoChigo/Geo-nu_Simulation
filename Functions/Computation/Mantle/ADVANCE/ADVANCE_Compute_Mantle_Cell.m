@@ -1,4 +1,6 @@
-function [SIGNAL_U_DM, SIGNAL_TH_DM, SIGNAL_U_EM, SIGNAL_TH_EM] = LITE_Compute_Mantle_Cell(index, detector, array_for_mass, array_for_abundance, array_for_signal)
+function [MASS_U_DM, MASS_TH_DM, MASS_U_EM, MASS_TH_EM,...
+    SIGNAL_U_DM, SIGNAL_TH_DM, SIGNAL_U_EM, SIGNAL_TH_EM,...
+    FLUX_U_DM, FLUX_TH_DM, FLUX_U_EM, FLUX_TH_EM] = ADVANCE_Compute_Mantle_Cell(index, detector, array_for_mass, array_for_abundance, array_for_signal, array_for_flux)
 % ~~~~~~~~~~~~~~ Depth of all 1 km Layers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 LAB = array_for_mass{1};
 CMB_depth = 2891 * 1e3; % Unit: m, Core-Mantle Boundary (CMB) %
@@ -55,6 +57,8 @@ PREM = array_for_mass{5};
 
 sig_response_u238 = array_for_signal{1};
 sig_response_th232 = array_for_signal{2};
+flux_response_u238 = array_for_flux{1};
+flux_response_th232 = array_for_flux{2};
 energy = array_for_signal{3};
 p1 = array_for_signal{4};
 p2 = array_for_signal{5};
@@ -68,6 +72,10 @@ subcell_limits = [100000,160000,280000,600000,1000000]; % Unit: m %
 len = length(THICK_LARGE_LAYERS);
 geonu_signal_factor_u238 = zeros(len, 1);
 geonu_signal_factor_th232 = zeros(len, 1);
+geonu_flux_factor_u238 = zeros(len, 1);
+geonu_flux_factor_th232 = zeros(len, 1);
+mass_rock = zeros(len, 1);
+
 for ii2 = 1 : length(THICK_LARGE_LAYERS)
     distance = Compute_Distance(lon_center, lat_center, surface_radius, DEPTH_LARGE_LAYERS(ii2), detector);
 
@@ -76,12 +84,23 @@ for ii2 = 1 : length(THICK_LARGE_LAYERS)
         part2 = p2 .* sin(1.27 * m31 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
         part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
         Pee = part1 + part2 + part3;
+        % % Signal % %
         sig_factor_u238 = sum(MASS_LARGE_LAYERS(ii2, 1) .* (sig_response_u238 .* Pee')', 2); % 1 * 1 %
         sig_factor_th232 = sum(MASS_LARGE_LAYERS(ii2, 1) .* (sig_response_th232 .* Pee')', 2); % 1 * 1 %
         unit_geonu_sig_factor_u238 = sig_factor_u238 ./ (distance .^ 2); % 1 * 1 %
         unit_geonu_sig_factor_th232 = sig_factor_th232 ./ (distance .^2); % 1 * 1 %
         geonu_signal_factor_u238(ii2, 1) = sum(unit_geonu_sig_factor_u238, 1);
         geonu_signal_factor_th232(ii2, 1) =  sum(unit_geonu_sig_factor_th232, 1);
+        clear sig_factor_u238 sig_factor_th232 unit_geonu_sig_factor_u238 unit_geonu_sig_factor_th232;
+        % % Flux % %
+        flux_factor_u238 = sum(MASS_LARGE_LAYERS(ii2, 1) .* (flux_response_u238 .* Pee')', 2); % 1 * 1 %
+        flux_factor_th232 = sum(MASS_LARGE_LAYERS(ii2, 1) .* (flux_response_th232 .* Pee')', 2); % 1 * 1 %
+        unit_geonu_flux_factor_u238 = flux_factor_u238 ./ (distance .^ 2); % 1 * 1 %
+        unit_geonu_flux_factor_th232 = flux_factor_th232 ./ (distance .^ 2); % 1 * 1 %
+        geonu_flux_factor_u238(ii2, 1) = sum(unit_geonu_flux_factor_u238, 1);
+        geonu_flux_factor_th232(ii2, 1) = sum(unit_geonu_flux_factor_th232, 1);
+        clear flux_factor_u238 flux_factor_th232 unit_geonu_flux_factor_u238 unit_geonu_flux_factor_th232;
+
     else
         if distance <= subcell_limits(1)
             subcell_size = subcell_sizes(1);
@@ -110,12 +129,21 @@ for ii2 = 1 : length(THICK_LARGE_LAYERS)
             part3 = p3 .* sin(1.27 * m32 .* bsxfun(@rdivide, sub_distance, energy')) .^2; % 1 * Energy %
             Pee = part1 + part2 + part3;
             density = PREM(round(sub_depths(ii3, 1)/1000), 3); % Unit: kg/m^3
+            % % % Signal % % %
             sig_factor_u238 = sum(density .* sub_volumes(ii3, 1) .* (sig_response_u238 .* Pee')', 2); % 1 * 1 %
             sig_factor_th232 = sum(density .* sub_volumes(ii3, 1) .* (sig_response_th232 .* Pee')', 2); % 1 * 1 %
             unit_geonu_sig_factor_u238 = sig_factor_u238 ./ (sub_distance .^ 2); % 1 * 1 %
             unit_geonu_sig_factor_th232 = sig_factor_th232 ./ (sub_distance .^ 2); % 1 * 1 %
             geonu_signal_factor_u238(ii2, 1) = geonu_signal_factor_u238(ii2, 1) + unit_geonu_sig_factor_u238; % 1 * 1 %
             geonu_signal_factor_th232(ii2, 1) = geonu_signal_factor_u238(ii2, 1) + unit_geonu_sig_factor_th232; % 1 * 1 %
+            % % % Flux % % %
+            flux_factor_u238 = sum(density .* sub_volumes(ii3, 1) .* (flux_response_u238 .* Pee')', 2); % 1 * 1 %
+            flux_factor_th232 = sum(density .* sub_volumes(ii3, 1) .* (flux_response_th232 .* Pee')', 2); % 1 * 1 %
+            unit_geonu_flux_factor_u238 = flux_factor_u238 ./ (sub_distance .^ 2); % 1 * 1 %
+            unit_geonu_flux_factor_th232 = flux_factor_th232 ./ (sub_distance .^ 2); % 1 * 1 %
+            geonu_flux_factor_u238(ii2, 1) = geonu_flux_factor_u238(ii2, 1) + unit_geonu_flux_factor_u238; % 1 * 1 %
+            geonu_flux_factor_th232(ii2, 1) = geonu_flux_factor_th232(ii2, 1) + unit_geonu_flux_factor_th232; % 1 * 1 %
+            clear flux_factor_u238 flux_factor_th232 unit_geonu_flux_factor_u238 unit_geonu_flux_factor_th232;
         end
     end
 end
@@ -123,9 +151,22 @@ dm_au = array_for_abundance{1}; % Iteration * 1 %
 dm_ath = array_for_abundance{2}; % Iteration * 1 %
 em_au = array_for_abundance{3}; % Iteration * 1 %
 em_ath = array_for_abundance{4}; % Iteration * 1 %
-SIGNAL_U_DM = sum(bsxfun(@times, dm_au, geonu_signal_factor_u238(1 : end - 1, 1)'), 2);
-SIGNAL_TH_DM = sum(bsxfun(@times, dm_ath, geonu_signal_factor_th232(1: end-1 , 1)'), 2);
-SIGNAL_U_EM = sum(bsxfun(@times, em_au, geonu_signal_factor_u238(end - 1, 1)'), 2);
-SIGNAL_TH_EM = sum(bsxfun(@times, em_ath, geonu_signal_factor_th232(end, 1)'), 2);
+% % MASS % %
+MASS_U_DM = (dm_au .* sum(MASS_LARGE_LAYERS(1: end - 1, 1), 1))';
+MASS_TH_DM = (dm_ath .* sum(MASS_LARGE_LAYERS(1: end - 1, 1), 1))';
+MASS_U_EM = (em_au   .* sum(MASS_LARGE_LAYERS(end, 1), 1))';
+MASS_TH_EM = (em_ath   .* sum(MASS_LARGE_LAYERS(end, 1), 1))';
+
+% % SIGNAL % %
+SIGNAL_U_DM = sum(bsxfun(@times, dm_au, geonu_signal_factor_u238(1 : end - 1, 1)'), 2)';
+SIGNAL_TH_DM = sum(bsxfun(@times, dm_ath, geonu_signal_factor_th232(1: end-1 , 1)'), 2)';
+SIGNAL_U_EM = sum(bsxfun(@times, em_au, geonu_signal_factor_u238(end - 1, 1)'), 2)';
+SIGNAL_TH_EM = sum(bsxfun(@times, em_ath, geonu_signal_factor_th232(end, 1)'), 2)';
+
+% % FLUX % %
+FLUX_U_DM = sum(bsxfun(@times, dm_au, geonu_flux_factor_u238(1 : end - 1, 1)'), 2)' .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
+FLUX_TH_DM = sum(bsxfun(@times, dm_ath, geonu_flux_factor_th232(1: end-1 , 1)'), 2)' .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
+FLUX_U_EM = sum(bsxfun(@times, em_au, geonu_flux_factor_u238(end - 1, 1)'), 2)' .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
+FLUX_TH_EM = sum(bsxfun(@times, em_ath, geonu_flux_factor_th232(end, 1)'), 2)' .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
 
 end

@@ -35,10 +35,3 @@ Geology = Assign_Abundance_Layer(Geology, 'Sed', Sed_Abundance_U, Sed_Abundance_
 clear OC_Abundance_U OC_Abundance_Th OC_Abundance_K UC_CC_Abundance_U UC_CC_Abundance_Th UC_CC_Abundance_K;
 clear LM_CC_Abundance_U LM_CC_Abundance_Th LM_CC_Abundance_K Sed_Abundance_U Sed_Abundance_Th Sed_Abundance_K;
 % [Geology,Physics] = Find_Near_Field_Cells(Geology, Physics);
-
-% % ~~~~~~~~~~~~~~~~~~~~ Mantle part ~~~~~~~~~~~~~~~~~~~~ % %
-% % % % 这个数据可以参考 section 5.3 in https://www.sciencedirect.com/science/article/abs/pii/0009254194001404 % % % %
-Geology.BSE.Abundance.U_Mean = 19; % Unit: ppb, mantle中U丰度 %
-Geology.Mantle.Proption_EM = 0.19; % by mass %
-Geology = Compute_Abundance_BSE(Geology);
-% plus 20% uncertainty associated with mantle U total %

@@ -1,7 +1,7 @@
-function [TOTAL_MASS, MASS_U, MASS_TH,  SIGNAL_U, SIGNAL_TH, PRESSURE_TO_LAYER]...
-    = LITE_Compute_Lithosphere_Cell(index, iteration, name_model, name_layer,...
+function [TOTAL_MASS, MASS_U, MASS_TH,  SIGNAL_U, SIGNAL_TH, FLUX_U, FLUX_TH, PRESSURE_TO_LAYER]...
+    = ADVANCE_Compute_Lithosphere_Cell(index, iteration, name_model, name_layer,...
     last_layer_pressure, detector, cor_array, array_for_radius, array_for_mass, array_for_abundance,...
-    array_for_signal)
+    array_for_signal, array_for_flux)
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 % index                 : index of the cell
 % iteration             : iteration
@@ -34,6 +34,8 @@ if thickness_mean <= 0 | strcmp('LM_OC', name_layer) == 1
     MASS_TH = template;
     SIGNAL_U = template;
     SIGNAL_TH = template;
+    FLUX_U = template;
+    FLUX_TH = template;
     PRESSURE_TO_LAYER = last_layer_pressure;
 % % Clear Variables % %
     clear template thickness_mean;
@@ -249,7 +251,7 @@ ABUNDANCE_K(ABUNDANCE_K < 0) = 0;
 MASS_U = TOTAL_MASS .* ABUNDANCE_U;
 MASS_TH = TOTAL_MASS .* ABUNDANCE_TH;
 
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Geonu Signals ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Geonu Signals ang Flux ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 lon_center = array_for_mass(2);
 lat_center = array_for_mass(3);
 thickness_center = array_for_radius(1);
@@ -268,8 +270,12 @@ p3 = array_for_signal{6};
 m21 = array_for_signal{7};
 m31 = array_for_signal{8};
 m32 = array_for_signal{9};
+flux_response_u238 = array_for_flux{1};
+flux_response_th232 = array_for_flux{2};
 geonu_signal_factor_u238 = 0;
 geonu_signal_factor_th232 = 0;
+geonu_flux_factor_u238 = 0;
+geonu_flux_factor_th232 = 0;
 
 if distance > subcell_limits(5)
     part1 = 1 + p1 .* sin(1.27 * m21 .* bsxfun(@rdivide, distance, energy')) .^2; % 1 * Energy %
@@ -283,8 +289,17 @@ if distance > subcell_limits(5)
     geonu_signal_factor_u238 = sig_factor_u238  ./ (distance .^ 2); % Unit: m^3/kg %
     geonu_signal_factor_th232 = sig_factor_th232 ./ (distance .^2); % Unit: m^3/kg %
     % % Clear Vairables % %
-    clear part1 part2 part3 Pee;
-    clear volume sig_factor_u238 sig_factor_th232;
+    clear part1 part2 part3;
+    clear sig_factor_u238 sig_factor_th232;
+    % % Flux % %
+    flux_factor_u238 = sum(volume .* flux_response_u238 .* Pee'); % Cell * 1 %
+    flux_factor_th232 = sum(volume .* flux_response_th232 .* Pee'); % Cell * 1 %
+    % Unit: m^3/(kg s) %
+    geonu_flux_factor_u238 = flux_factor_u238  ./ (distance .^ 2); % Unit: m/(kg s) %
+    geonu_flux_factor_th232 = flux_factor_th232  ./ (distance .^ 2); % Unit: m/(kg s) %
+    % % Clear Variables % %
+    clear volume Pee;
+    clear flux_factor_u238 flux_factor_th232;
 else
 % % Get the subcell_size of subcell $ $
     if distance <= subcell_limits(1)
@@ -329,9 +344,18 @@ else
             geonu_signal_factor_th232 = geonu_signal_factor_th232 + sum(unit_geonu_sig_factor_th232, 1);  % Unit: m^3/kg %
             % % % Clear Variables % % %
             clear sub_sub_lons sub_sub_lats sub_sub_depths lon_sub_sub_interval lat_sub_sub_interval thick_sub_sub_interval;
-            clear sub_sub_volumes sub_sub_distances;
-            clear part1 part2 part3 Pee;
+            clear part1 part2 part3;
             clear sig_factor_u238 sig_factor_th232 unit_geonu_sig_factor_u238 unit_geonu_sig_factor_th232;
+            % % % Flux % % %
+            flux_factor_u238 = sum(sub_sub_volumes .* (flux_response_u238 .* Pee')', 2); % cell * 1 %
+            flux_factor_th232 = sum(sub_sub_volumes .* (flux_response_th232 .* Pee')', 2); % cell * 1 %
+            unit_geonu_flux_factor_u238 = flux_factor_u238 ./ (sub_sub_distances .^2); % cell * 1 %
+            unit_geonu_flux_factor_th232 = flux_factor_th232 ./ (sub_sub_distances .^2); % cell * 1 %
+            geonu_flux_factor_u238 = geonu_flux_factor_u238 + sum(unit_geonu_flux_factor_u238, 1); % cell * 1 %
+            geonu_flux_factor_th232 = geonu_flux_factor_th232 + sum(unit_geonu_flux_factor_th232, 1); % cell * 1 %
+            % % % Clear Variables % % %
+            clear Pee sub_sub_volumes sub_sub_distances;
+            clear unit_geonu_flux_factor_u238 unit_geonu_flux_factor_th232;
         else
             disp(name_layer);
             index
@@ -346,12 +370,21 @@ end
 % % Geonu Signal % %
 SIGNAL_U = DENSITY .* ABUNDANCE_U .* geonu_signal_factor_u238;
 SIGNAL_TH = DENSITY .* ABUNDANCE_TH .* geonu_signal_factor_th232;
+% % Geonu Flux % %
+FLUX_U = DENSITY .* ABUNDANCE_U .* geonu_flux_factor_u238 .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
+FLUX_TH = DENSITY .* ABUNDANCE_U .* geonu_flux_factor_th232 .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
+%%%%%%%%%%%% Test %%%%%%%%%%%
+% index
+% size(SIGNAL_U)
+% size(FLUX_U)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % % Clear Variables % %
 clear lon_center lat_center thickness_center depth_center;
 clear surface_radius distance subcell_sizes subcell_limits;
 clear p sig_response_u238 sig_response_th232 energy;
 clear p1 p2 p3 m21;
 clear geonu_signal_factor_u238 geonu_signal_factor_th232;
+clear geonu_flux_factor_u238 geonu_flux_factor_th232;
 clear DENSITY ABUNDANCE_U ABUNDANCE_TH ABUNDANCE_K;
 
 end

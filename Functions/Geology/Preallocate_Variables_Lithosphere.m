@@ -1,4 +1,4 @@
-function Geology = Allocate_Variables_Lithosphere(Geology)
+function Geology = Preallocate_Variables_Lithosphere(Geology)
 % ~~~~~~~~~~~~~~~~~~~~ Preallocate Variables ~~~~~~~~~~~~~~~~~~~~ %
 layers = {'UC', 'MC', 'LC', 'LM', 's1', 's2', 's3'};
 len_layer = length(layers);

@@ -21,3 +21,9 @@ surface_radius = GeoPhys.r; % 64800 * 1 %
 OC = Geology.Lithosphere.Model.Logical.OC; % 用于MC、LC、LM的丰度计算 %
 name_model = Geology.Lithosphere.Model.Name;
 name_deepcrust = Geology.Lithosphere.Model.Method.Deep_Crust;
+
+% ~~~~~~~~~~~~~~~~~~~~ Variables for Geonu Flux ~~~~~~~~~~~~~~~~~~~~ %
+Flux_Res_U238 = Physics.Elements.Flux_Response.U238;
+Flux_Res_Th232 = Physics.Elements.Flux_Response.Th232;
+
+array_for_flux = {Flux_Res_U238, Flux_Res_Th232};
