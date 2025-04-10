@@ -1,0 +1,115 @@
+function Plot_One_Experiment_Signal(file_path)
+
+Res = load(file_path);
+[~, name, ~] = fileparts(file_path);
+
+% ~~~~~~~~~~~~~~~~~~~~ Radiogenic Power ~~~~~~~~~~~~~~~~~~~~ %
+heat_lith = Res.Output.Lithosphere.Heat_Power.Total.Total .* 1e-12; % Unit: TW %
+heat_mantle = Res.Output.Mantle.Heat_Power.Total.Total .* 1e-12; % Unit: TW %
+heat_total = heat_lith + heat_mantle; % Unit: TW %
+heat_mantle = heat_mantle(heat_mantle ~= 0);  % Drop 0 values %
+heat_total = heat_total(heat_total ~= 0); % Drop 0 values %
+% % ~~~~~~~~~~~~~~~~~~~~ Lithosphere ~~~~~~~~~~~~~~~~~~~~ % %
+pd = fitdist(heat_lith(:, 1), 'Normal');
+mean_value = pd.mu;
+sigma = pd.sigma;
+figure;
+histogram(heat_lith, 'BinWidth', 0.5);
+title("Radiogenic Power Distribution for Lithosphere");
+xlabel('Radiogenic Power U+Th (TW)');
+ylabel('Entries');
+xlim([0, 50]);
+xticks(0:2:50);
+grid on;
+parameter_tex = sprintf('Radiogenic Power\n %.2f_{-%.2f}^{+%.2f} TW', mean_value, sigma, sigma);
+y_lim = ylim;
+x_pos = 30;
+y_pos = y_lim(2) * 0.8;
+text(x_pos, y_pos, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
+pic_path = sprintf('./Pics/Heat_Power_Lithosphere_%s.jpg', name);
+print(pic_path, '-djpeg', '-r500');
+
+% % ~~~~~~~~~~~~~~~~~~~~ Mantle ~~~~~~~~~~~~~~~~~~~~ % %
+pd = fitdist(heat_mantle(:, 1), 'Normal');
+mean_value = pd.mu;
+sigma = pd.sigma;
+figure;
+histogram(heat_mantle, 'BinWidth', 0.5);
+title("Radiogenic Power Distribution for Mantle");
+xlabel('Radiogenic Power U+Th (TW)');
+ylabel('Entries');
+xlim([0, 50]);
+xticks(0:2:50);
+grid on;
+parameter_tex = sprintf('Radiogenic Power\n %.2f_{-%.2f}^{+%.2f} TW', mean_value, sigma, sigma);
+y_lim = ylim;
+x_pos = 30;
+y_pos = y_lim(2) * 0.8;
+text(x_pos, y_pos, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
+pic_path = sprintf('./Pics/Heat_Power_Mantle_%s.jpg', name);
+print(pic_path, '-djpeg', '-r500');
+
+% % ~~~~~~~~~~~~~~~~~~~~ Total ~~~~~~~~~~~~~~~~~~~~ % %
+pd = fitdist(heat_total(:, 1), 'Normal');
+mean_value = pd.mu;
+sigma = pd.sigma;
+figure;
+histogram(heat_total, 'BinWidth', 0.5);
+title("Radiogenic Power Distribution for Total");
+xlabel('Radiogenic Power U+Th (TW)');
+ylabel('Entries');
+xlim([0, 50]);
+xticks(0:2:50); 
+grid on;
+parameter_tex = sprintf('Radiogenic Power\n %.2f_{-%.2f}^{+%.2f} TW', mean_value, sigma, sigma);
+y_lim = ylim;
+x_pos = 30;
+y_pos = y_lim(2) * 0.8;
+text(x_pos, y_pos, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
+pic_path = sprintf('./Pics/Heat_Power_Total_%s.jpg', name);
+print(pic_path, '-djpeg', '-r500');
+
+% % ~~~~~~~~~~~~~~~~~~~~ U238 ~~~~~~~~~~~~~~~~~~~~ % %
+u238 = Res.Output.Lithosphere.Heat_Power.Total.U238 + Res.Output.Mantle.Heat_Power.Total.U238;
+u238 = u238 .* 1e-12; % Unit: TW %
+pd = fitdist(u238(:, 1), 'Normal');
+mean_value = pd.mu;
+sigma = pd.sigma;
+figure;
+histogram(u238, 'BinWidth', 0.5);
+title("Radiogenic Power Distribution for 238U");
+xlabel('Radiogenic Power (TW)');
+ylabel('Entries');
+xlim([0, 50]);
+xticks(0:2:50);
+grid on;
+parameter_tex = sprintf('Radiogenic Power\n %.2f_{-%.2f}^{+%.2f} TW', mean_value, sigma, sigma);
+y_lim = ylim;
+x_pos = 30;
+y_pos = y_lim(2) * 0.8;
+text(x_pos, y_pos, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
+pic_path = sprintf('./Pics/Heat_Power_238U_%s.jpg', name);
+print(pic_path, '-djpeg', '-r500');
+% % ~~~~~~~~~~~~~~~~~~~~ TH232 ~~~~~~~~~~~~~~~~~~~~ % %
+th232 = Res.Output.Lithosphere.Heat_Power.Total.Th232 + Res.Output.Mantle.Heat_Power.Total.Th232;
+th232 = th232 .* 1e-12; % Unit: TW %
+pd = fitdist(th232(:, 1), 'Normal');
+mean_value = pd.mu;
+sigma = pd.sigma;
+figure;
+histogram(th232, 'BinWidth', 0.5);
+title("Radiogenic Power Distribution for 232Th");
+xlabel('Radiogenic Power (TW)');
+ylabel('Entries');
+xlim([0, 50]);
+xticks(0:2:50);
+grid on;
+parameter_tex = sprintf('Radiogenic Power\n %.2f_{-%.2f}^{+%.2f} TW', mean_value, sigma, sigma);
+y_lim = ylim;
+x_pos = 30;
+y_pos = y_lim(2) * 0.8;
+text(x_pos, y_pos, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'EdgeColor', 'black');
+pic_path = sprintf('./Pics/Heat_Power_232Th_%s.jpg', name);
+print(pic_path, '-djpeg', '-r500');
+
+end

@@ -26,21 +26,21 @@ Output.Mantle.Geonu_Flux.Total.Th232 = Output.Mantle.Geonu_Flux.Depleted.Th232 +
 Output.Mantle.Geonu_Flux.Total.Total = Output.Mantle.Geonu_Flux.Total.U238 + Output.Mantle.Geonu_Flux.Total.Th232;
 
 % % ~~~~~~~~~~~~~~~~~~~~ Heat Power ~~~~~~~~~~~~~~~~~~~~ % %
-abun_mass_u238 = Physics.Elements.Abundance.Mass.U238;
-abun_mass_th232 = Physics.Elements.Abundance.Mass.Th232;
-hp_res_u238 = Physics.Elements.Heat_Power.U238;
-hp_res_th232 = Physics.Elements.Heat_Power.Th232;
+% abun_mass_u238 = Physics.Elements.Abundance.Mass.U238;
+% abun_mass_th232 = Physics.Elements.Abundance.Mass.Th232;
+hp_res_u = Physics.Elements.Heat_Power.U;
+hp_res_th = Physics.Elements.Heat_Power.Th232;
 
-Output.Mantle.Heat_Power.Depleted.U238 = abun_mass_u238 .* hp_res_u238 .* sum(mass_u_dm, 1)';
-Output.Mantle.Heat_Power.Depleted.Th232 = abun_mass_th232 .* hp_res_th232 .* sum(mass_th_dm, 1)';
-Output.Mantle.Heat_Power.Depleted.Total = Output.Mantle.Heat_Power.Depleted.U238 + Output.Mantle.Heat_Power.Depleted.Th232;
+Output.Mantle.Heat_Power.Depleted.U = hp_res_u .* sum(mass_u_dm, 1)';
+Output.Mantle.Heat_Power.Depleted.Th = hp_res_th .* sum(mass_th_dm, 1)';
+Output.Mantle.Heat_Power.Depleted.Total = Output.Mantle.Heat_Power.Depleted.U + Output.Mantle.Heat_Power.Depleted.Th;
 
-Output.Mantle.Heat_Power.Enriched.U238 = abun_mass_u238 .* hp_res_u238 .* sum(mass_u_em, 1)';
-Output.Mantle.Heat_Power.Enriched.Th232 = abun_mass_th232 .* hp_res_th232 .* sum(mass_th_em, 1)';
-Output.Mantle.Heat_Power.Enriched.Total = Output.Mantle.Heat_Power.Enriched.U238 + Output.Mantle.Heat_Power.Enriched.Th232;
+Output.Mantle.Heat_Power.Enriched.U = hp_res_u .* sum(mass_u_em, 1)';
+Output.Mantle.Heat_Power.Enriched.Th = hp_res_th .* sum(mass_th_em, 1)';
+Output.Mantle.Heat_Power.Enriched.Total = Output.Mantle.Heat_Power.Enriched.U + Output.Mantle.Heat_Power.Enriched.Th;
 
-Output.Mantle.Heat_Power.Total.U238 = Output.Mantle.Heat_Power.Depleted.U238 + Output.Mantle.Heat_Power.Depleted.Th232;
-Output.Mantle.Heat_Power.Total.Th232 = Output.Mantle.Heat_Power.Depleted.Th232 + Output.Mantle.Heat_Power.Enriched.Th232;
-Output.Mantle.Heat_Power.Total.Total = Output.Mantle.Heat_Power.Total.U238 + Output.Mantle.Heat_Power.Total.Th232;
+Output.Mantle.Heat_Power.Total.U = Output.Mantle.Heat_Power.Depleted.U + Output.Mantle.Heat_Power.Depleted.Th;
+Output.Mantle.Heat_Power.Total.Th = Output.Mantle.Heat_Power.Depleted.Th + Output.Mantle.Heat_Power.Enriched.Th;
+Output.Mantle.Heat_Power.Total.Total = Output.Mantle.Heat_Power.Total.U + Output.Mantle.Heat_Power.Total.Th;
 
-clear abun_mass_u238 abun_mass_th232 hp_res_u238 hp_res_th232;
+clear abun_mass_u238 abun_mass_th232 hp_res_u hp_res_th;

@@ -372,12 +372,7 @@ SIGNAL_U = DENSITY .* ABUNDANCE_U .* geonu_signal_factor_u238;
 SIGNAL_TH = DENSITY .* ABUNDANCE_TH .* geonu_signal_factor_th232;
 % % Geonu Flux % %
 FLUX_U = DENSITY .* ABUNDANCE_U .* geonu_flux_factor_u238 .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
-FLUX_TH = DENSITY .* ABUNDANCE_U .* geonu_flux_factor_th232 .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
-%%%%%%%%%%%% Test %%%%%%%%%%%
-% index
-% size(SIGNAL_U)
-% size(FLUX_U)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+FLUX_TH = DENSITY .* ABUNDANCE_TH .* geonu_flux_factor_th232 .* 1e-4; % 1e-4 comes from m^2 to cm^2 %
 % % Clear Variables % %
 clear lon_center lat_center thickness_center depth_center;
 clear surface_radius distance subcell_sizes subcell_limits;
