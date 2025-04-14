@@ -17,7 +17,7 @@ K_U_Ratio_DM = Generate_Random_Normal(19000, 1300, iteration, cor); % Unit: g/g 
 temp_au_dm = Generate_Random_Normal(8, 8 * 0.3, iteration, cor) .* 1e-9; % Unit: g/g %
 temp_au_dm(temp_au_dm < 0, 1) = 0;
 
-index = mantle_u_mass >= temp_au_dm .* (mantle_mass .* (1 - prop_dm));
+index = mantle_u_mass >= temp_au_dm .* (mantle_mass .* prop_dm);
 % % For the index is true, assign temp_au_dm % %
 template = zeros(iteration, 1);
 mantle_au_dm = template;

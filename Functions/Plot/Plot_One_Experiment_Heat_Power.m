@@ -69,15 +69,15 @@ text(x_pos, y_pos, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'E
 pic_path = sprintf('./Pics/Heat_Power_Total_%s.jpg', name);
 print(pic_path, '-djpeg', '-r500');
 
-% % ~~~~~~~~~~~~~~~~~~~~ U238 ~~~~~~~~~~~~~~~~~~~~ % %
-u238 = Res.Output.Lithosphere.Heat_Power.Total.U238 + Res.Output.Mantle.Heat_Power.Total.U238;
-u238 = u238 .* 1e-12; % Unit: TW %
-pd = fitdist(u238(:, 1), 'Normal');
+% % ~~~~~~~~~~~~~~~~~~~~ U ~~~~~~~~~~~~~~~~~~~~ % %
+u = Res.Output.Lithosphere.Heat_Power.Total.U + Res.Output.Mantle.Heat_Power.Total.U;
+u = u .* 1e-12; % Unit: TW %
+pd = fitdist(u(:, 1), 'Normal');
 mean_value = pd.mu;
 sigma = pd.sigma;
 figure;
-histogram(u238, 'BinWidth', 0.5);
-title("Radiogenic Power Distribution for 238U");
+histogram(u, 'BinWidth', 0.5);
+title("Radiogenic Power Distribution for U");
 xlabel('Radiogenic Power (TW)');
 ylabel('Entries');
 xlim([0, 50]);
@@ -91,14 +91,14 @@ text(x_pos, y_pos, parameter_tex, 'FontSize', 12, 'BackgroundColor', 'white', 'E
 pic_path = sprintf('./Pics/Heat_Power_238U_%s.jpg', name);
 print(pic_path, '-djpeg', '-r500');
 % % ~~~~~~~~~~~~~~~~~~~~ TH232 ~~~~~~~~~~~~~~~~~~~~ % %
-th232 = Res.Output.Lithosphere.Heat_Power.Total.Th232 + Res.Output.Mantle.Heat_Power.Total.Th232;
-th232 = th232 .* 1e-12; % Unit: TW %
-pd = fitdist(th232(:, 1), 'Normal');
+th = Res.Output.Lithosphere.Heat_Power.Total.Th + Res.Output.Mantle.Heat_Power.Total.Th;
+th = th .* 1e-12; % Unit: TW %
+pd = fitdist(th(:, 1), 'Normal');
 mean_value = pd.mu;
 sigma = pd.sigma;
 figure;
-histogram(th232, 'BinWidth', 0.5);
-title("Radiogenic Power Distribution for 232Th");
+histogram(th, 'BinWidth', 0.5);
+title("Radiogenic Power Distribution for Th");
 xlabel('Radiogenic Power (TW)');
 ylabel('Entries');
 xlim([0, 50]);
