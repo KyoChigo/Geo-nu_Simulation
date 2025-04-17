@@ -63,6 +63,6 @@ Physics.Oscillation.Coefficients.p3 = - sin_2theta13_square * sin_theta12_square
 clear sin_2theta12_square cos_theta13_square sin_2theta13_square cos_theta12_square sin_theta12_square;
 
 % ~~~~~~~~~~~~~~~~~~~~ Output Message ~~~~~~~~~~~~~~~~~~~~ %
-disp('[Physics::Load_Oscillation_Parameters] Oscillation parameters is complete');
+% disp('[Physics::Load_Oscillation_Parameters] Oscillation parameters is complete');
 
 end

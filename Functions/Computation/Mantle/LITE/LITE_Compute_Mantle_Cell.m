@@ -123,6 +123,7 @@ dm_au = array_for_abundance{1}; % Iteration * 1 %
 dm_ath = array_for_abundance{2}; % Iteration * 1 %
 em_au = array_for_abundance{3}; % Iteration * 1 %
 em_ath = array_for_abundance{4}; % Iteration * 1 %
+
 SIGNAL_U_DM = sum(bsxfun(@times, dm_au, geonu_signal_factor_u238(1 : end - 1, 1)'), 2);
 SIGNAL_TH_DM = sum(bsxfun(@times, dm_ath, geonu_signal_factor_th232(1: end - 1 , 1)'), 2);
 SIGNAL_U_EM = sum(bsxfun(@times, em_au, geonu_signal_factor_u238(end, 1)'), 2);

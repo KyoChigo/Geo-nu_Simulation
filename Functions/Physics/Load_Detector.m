@@ -24,6 +24,6 @@ Physics.Detector.Clostest_Cell = detector(6);
 Physics.Detector.Name = detector{7};
 
 % ~~~~~~~~~~~~~~~~~~~~ Output message ~~~~~~~~~~~~~~~~~~~~ %
-disp('[Physics::Load_Detector] Detector is complete');
+% disp('[Physics::Load_Detector] Detector is complete');
 
 end

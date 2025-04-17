@@ -76,6 +76,7 @@ Physics.Elements.Spectrum.Energy.Bin_Centers = 0; % Unit: MeV %
 Physics.Elements.Spectrum.Energy.Length = 0;
 
 % % % Spectrum.dn_dE % % %
+Physics.Elements.Spectrum.Method = 'Enomoto';
 Physics.Elements.Spectrum.dn_dE.U238 = 'Load_Geonu_Specturm()'; % Unit: 1/MeV %
 Physics.Elements.Spectrum.dn_dE.U235 = 'Load_Geonu_Specturm()'; % Unit: 1/MeV %
 Physics.Elements.Spectrum.dn_dE.Th232 = 'Load_Geonu_Specturm()'; % Unit: 1/MeV %
@@ -153,4 +154,4 @@ Physics = Compute_Cross_Section(Physics);
 Physics = Compute_Geonu_Response(Physics);
 
 % ~~~~~~~~~~~~~~~~~~~~ Output message ~~~~~~~~~~~~~~~~~~~~ %
-disp('[Constants_Physics] Physics data structure is complete');
+% disp('[Constants_Physics] Physics data structure is complete');

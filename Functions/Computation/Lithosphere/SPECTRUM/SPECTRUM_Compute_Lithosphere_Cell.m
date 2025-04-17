@@ -351,7 +351,7 @@ end
 
 % % Geonu Signal % %
 SPECTRUM_U = bsxfun(@times, geonu_factor_u238, (DENSITY .* ABUNDANCE_U)');
-SPECTRUM_TH = bsxfun(@times, geonu_factor_th232, (DENSITY .* ABUNDANCE_U)');
+SPECTRUM_TH = bsxfun(@times, geonu_factor_th232, (DENSITY .* ABUNDANCE_TH)');
 % % Clear Variables % %
 clear lon_center lat_center thickness_center depth_center;
 clear surface_radius distance Subcell_sizes Subcell_limits;

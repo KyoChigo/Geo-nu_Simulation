@@ -25,6 +25,6 @@ for i = 1 : length(HPEs)
 end
 
 % ~~~~~~~~~~~~~~~~~~~~ Output Message ~~~~~~~~~~~~~~~~~~~~ %
-disp('[Physics::Compute_Geonu_Response] Geonu resoponse is complete');
+% disp('[Physics::Compute_Geonu_Response] Geonu resoponse is complete');
 
 end

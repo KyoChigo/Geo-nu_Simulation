@@ -33,6 +33,6 @@ Physics.Cross_Section.Energy = Energy_array; % Unit: MeV %
 Physics.Cross_Section.IBD = crosssection_array; % Unit: cm^2 %
 
 % ~~~~~~~~~~~~~~~~~~~~ Output Message ~~~~~~~~~~~~~~~~~~~~ %
-disp('[Physics::Compute_Cross_Section] IBD cross section is complete');
+% disp('[Physics::Compute_Cross_Section] IBD cross section is complete');
 
 end
