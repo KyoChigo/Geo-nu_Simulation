@@ -11,9 +11,6 @@ This repository is a revised and extended version based on the original GEONU co
 - **Advanced Applications**: Includes tools for estimating flux, radiogenic heat power, and signal rates under various scenarios.
 - **Documentation**: Bilingual user manual (Chinese + English), technical notes, and figures provided.
 
-
-> For detailed file authorship and modification status, see `Docs/GEONU_File_Classification.xlsx`.
-
 ## Usage
 
 1. Clone the repository.
@@ -28,14 +25,16 @@ This project was developed by [Shuai Ouyang], building upon previous work from a
 All original contributions are clearly marked in code headers. Modified and adapted files are appropriately annotated.  
 External figures or methods are cited in the documentation as needed.
 
+> For detailed file authorship and modification status, see `Docs/GEONU_File_Classification.xlsx`.
+
 ## License
 
-This project is distributed under the [insert license name, e.g., MIT License / GPL v3 / etc.].  
+This project is distributed under the MIT License.
 See `LICENSE` for full terms.
 
 ## Citation
 
-If you use any part of this software (either original or modified) in your publication, please cite the following reference:
+If you use any result based on this software (either original GEONU or this one) in your publication, please cite the following reference:
 
 > [A Reference Model for the Geoneutrino Signal from the Lithosphere and Upper Mantle](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JB018433).  
 
