@@ -1,3 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Structure_Geology.m
+% Description     : Define data structure of Geology
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Run Info ~~~~~~~~~~~~~~~~~~~~ %
 Geology.Iteration = 'Input';
 Geology.Random_Seed = 'Input';

@@ -1,4 +1,20 @@
 function GRIDSCAN_Final_Plot(data_dir, best_file_path, out_pic_path)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : GRIDSCAN_Final_Plot.m
+% Description     : Plot grid scan of oscillation parameter
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - data_dir       : Path to the data directory
+%   - best_file_path : Path to file that record best values
+%   - out_pic_path   : Path to output pictures
+%
+% Created On      : 2025-03-30
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % % ~~~~~~~~~~~~~~~~~~~~ Load Data ~~~~~~~~~~~~~~~~~~~~ % %
     % best_file_path = "./Output/GridScan/SNO+_4000_Crust1_Huang_7.41e-05_0.303_2025-03-28_17-08-34.mat";
     best_res = GRIDSCAN_Get_Value(best_file_path);
@@ -60,7 +76,7 @@ function GRIDSCAN_Final_Plot(data_dir, best_file_path, out_pic_path)
     ax = gca;
     ax.XMinorTick = 'on';
     ax.YMinorTick = 'on';
-    ax.TickLength = [0.02, 0.02]; % 调整刻度线长度，使其更明显 %
+    ax.TickLength = [0.02, 0.02];
     ax.TickDir = 'in';
     ax.LineWidth = 1.2;
     ax.Layer = 'top';

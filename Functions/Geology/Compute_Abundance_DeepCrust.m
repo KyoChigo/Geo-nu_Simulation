@@ -1,4 +1,27 @@
 function Geology = Compute_Abundance_DeepCrust(Physics, Geology)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Compute_Abundance_DeepCrust.m
+% Description     : Assign abundance of felsic and mafic and load data used
+% in Bivart method
+%
+% Adapted from    : Main code in old GEONU
+% Adapted by      : Shuai Ouyang
+% Institution     : Shandong Univeristy
+% Classification  : Adapted
+%
+% Input Parameters:
+%   - Physics     : Physics data structure
+%   - Geology     : Geology data structure
+%
+% Output Parameters:
+%   - Geology     : Geology data structure
+%
+% Physical Units:
+%   - Abundance   : g/g
+%
+% Creation Date   : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Compute Abundance of Deepcrust ~~~~~~~~~~~~~~~~~~~ %
 % This function randomly generate abundance of U, Th and K in felsic and mafic
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %

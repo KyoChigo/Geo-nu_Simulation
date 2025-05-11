@@ -1,4 +1,22 @@
 function Geology = Load_Lithosphere_Data(Geology)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Load_Lithosphere_Data.m
+% Description     : Load lithospheric data
+%
+% Adapted from    : Main code in old GEONU
+% Adapted by      : Shuai Ouyang
+% Institution     : Shandong Univeristy
+% Classification  : Adapted
+%
+% Input Parameters:
+%   - Geology     : Geology data structure
+%
+% Output Parameters:
+%   - Geology     : Geology data structure
+%
+% Creation Date   : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Load Data for Lithosphere ~~~~~~~~~~~~~~~~~~~~ %
 % % ~~~~~~~~~~~~~~~~~~~~ Load Data ~~~~~~~~~~~~~~~~~~~~ % %
 % % Define Temp Variables % %

@@ -1,8 +1,25 @@
 function Physics = Compute_Cross_Section(Physics)
-% ~~~~~~~~~~~~~~~~~~~~ Compute IBD Cross Section ~~~~~~~~~~~~~~~~~~~~ %
-% Energy            : MeV                                             %
-% IBD               : cm^2                                            %
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Compute_Cross_Section.m
+% Description     : Compute IBD cross section with leading order appriximation
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - Physics     : Physics data structure
+%
+% Output Parameters:
+%   - Physics     : Physics data structure
+%
+% Physical Units:
+%   - mass          : MeV
+%   - energy        : MeV
+%   - cross section : cm^2
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % % ~~~~~~~~~~~~~~~~~~~~ Setup ~~~~~~~~~~~~~~~~~~~~ % %
 Energy_array = Physics.Elements.Spectrum.Energy.Bin_Centers; % Unit: MeV %

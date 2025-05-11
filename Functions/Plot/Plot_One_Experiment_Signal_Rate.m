@@ -1,4 +1,20 @@
 function Plot_One_Experiment_Signal_Rate(file_path)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Plot_One_Experiment_Signal_Rate.m
+% Description     : Get statistical results
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - file_path   : Path to file
+%
+% Physical Units:
+%   - signal rate : TNU
+%
+% Created On      : 2025-03-21
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Res = load(file_path);
 
@@ -20,8 +36,7 @@ title("Geonu Signal Distribution for Lithosphere");
 xlabel('Geonu Signal (TNU)');
 ylabel('Entries');
 xlim([0, 100]);
-% 设置横轴和纵轴刻度间隔为 5
-xticks(0:5:100);  % 横轴从 0 到 80，间隔为 5
+xticks(0:5:100);
 grid on;
 parameter_tex = sprintf('Geonu Signal Rate\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
 y_lim = ylim;
@@ -41,8 +56,7 @@ title("Geonu Signal Rate Distribution for Mantle");
 xlabel('Geonu Signal Rate (TNU)');
 ylabel('Entries');
 xlim([0, 100]);
-% 设置横轴和纵轴刻度间隔为 5
-xticks(0:5:100);  % 横轴从 0 到 80，间隔为 5
+xticks(0:5:100);
 grid on;
 parameter_tex = sprintf('Geonu Signal Rate\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
 y_lim = ylim;
@@ -62,8 +76,7 @@ title("Geonu Signal Rate Distribution for Earth");
 xlabel('Geonu Signal Rate (TNU)');
 ylabel('Entries');
 xlim([0, 100]);
-% 设置横轴和纵轴刻度间隔为 5
-xticks(0:5:100);  % 横轴从 0 到 80，间隔为 5
+xticks(0:5:100);
 grid on;
 parameter_tex = sprintf('Geonu Signal Rate\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
 y_lim = ylim;
@@ -84,8 +97,7 @@ title("Geonu Signal Rate Distribution for 238U");
 xlabel('Geonu Signal Rate (TNU)');
 ylabel('Entries');
 xlim([0, 100]);
-% 设置横轴和纵轴刻度间隔为 5
-xticks(0:5:100);  % 横轴从 0 到 80，间隔为 5
+xticks(0:5:100);
 grid on;
 parameter_tex = sprintf('Geonu Signal Rate\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
 y_lim = ylim;
@@ -106,8 +118,7 @@ title("Geonu Signal Rate Distribution for 232Th");
 xlabel('Geonu Signal Rate (TNU)');
 ylabel('Entries');
 xlim([0, 100]);
-% 设置横轴和纵轴刻度间隔为 5
-xticks(0:5:100);  % 横轴从 0 到 80，间隔为 5
+xticks(0:5:100);
 grid on;
 parameter_tex = sprintf('Geonu Signal Rate\n %.2f_{-%.2f}^{+%.2f} TNU', mean_value, sigma, sigma);
 y_lim = ylim;

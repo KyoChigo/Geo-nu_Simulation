@@ -1,3 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : ADVANCE_Generate_Temp_Variables_for_Parallel.m
+% Description     : Define variables used in computation
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Created On      : 2025-04-03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Temp Variabls ~~~~~~~~~~~~~~~~~~~~ %
 len = length(Geology.Lithosphere.Model.GeoPhys.latlon);
 iteration = Geology.Iteration;
@@ -18,7 +29,7 @@ array_for_signal = {Sig_Res_U238, Sig_Res_Th232, energy, p1, p2, p3, m21, m31, m
 % % ~~~~~~~~~~~~~~~~~~~~ Geometry ~~~~~~~~~~~~~~~~~~~~ %
 lonlat = GeoPhys.latlon; % 64800 * 2; log : lat %
 surface_radius = GeoPhys.r; % 64800 * 1 %
-OC = Geology.Lithosphere.Model.Logical.OC; % 用于MC、LC、LM的丰度计算 %
+OC = Geology.Lithosphere.Model.Logical.OC;
 name_model = Geology.Lithosphere.Model.Name;
 name_deepcrust = Geology.Lithosphere.Model.Method.Deep_Crust;
 

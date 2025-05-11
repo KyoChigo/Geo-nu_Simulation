@@ -1,4 +1,28 @@
 function [sig_mean, sig_error, flux_mean, flux_error, ratio, ratio_error] = ADVANCE_Flux_Signal_Ratio(bool, signals, fluxes)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : ADVANCE_Flux_Signal_Ratio.m
+% Description     : Compute mean and error of signal rate and flux and ratio of them
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - bool        : Control the output of messages
+%   - signals     : Signal array
+%   - fluxes      : Flux array
+%
+% Output Parameters:
+%   - sig_mean    : Mean value of signal rates
+%   - sig_error   : Error of signal rates
+%   - flux_mean   : Mean value of fluxes
+%   - flux_error  : Error of fluxes
+%   - ratio       : Mean value of rate over flux
+%   - ratio_error : Error of ratio
+%
+% Created On      : 2025-04-07
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % % ~~~~~~~~~~~~~~~~~~~~ Fit ~~~~~~~~~~~~~~~~~~~~ % %
 pd_signal = fitdist(signals, 'Normal');
 pd_flux = fitdist(fluxes, 'Normal');

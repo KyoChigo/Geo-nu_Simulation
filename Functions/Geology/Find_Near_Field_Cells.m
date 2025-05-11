@@ -1,12 +1,37 @@
 function [Geology, Physics] = Find_Near_Field_Cells(Geology, Physics)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Find_Near_Field_Cells.m
+% Description     : Find index of the grid cell that is close to the detector
+%
+% Adapted from    : Main code in old GEONU
+% Adapted by      : Shuai Ouyang
+% Institution     : Shandong Univeristy
+% Classification  : Adapted
+%
+% Input Parameters:
+%   - Geology     : Geology data structure
+%   - Physics     : Physics data structure
+%
+% Output Parameters:
+%   - Geology     : Geology data structure
+%   - Physics     : Physics data structure
+%
+% Physical Units:
+%   - Radius      : m
+%   - Distance    : m
+%
+% Creation Date   : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 method = Geology.Lithosphere.Model.Method.Near_Field;
 GeoPhys = Geology.Lithosphere.Model.GeoPhys;
 detector = Physics.Detector;
-%%% 计算Detector的半径 %%%%%%%%%%%%%%%%
+% % ~~~~~~~~~~~~~~~~~~~~ Compute the Radius of the Detector ~~~~~~~~~~~~~~~~~~~~ % %
 index_closest = knnsearch([GeoPhys.latlon(:, 1), GeoPhys.latlon(:, 2)], [detector.Latitude{1}, detector.Longitude{1}]);
-Physics.Detector.Radius = GeoPhys.r(index_closest) - detector.Depth{1}; % Unit: m
-detector = Physics.Detector; % Update detector
-%%% 寻找附近的cell %%%%%%%%%%%%%%%%%%
+Physics.Detector.Radius = GeoPhys.r(index_closest) - detector.Depth{1}; % Unit: m %
+detector = Physics.Detector; % Update detector %
+
+% % ~~~~~~~~~~~~~~~~~~~~ Find the Cells ~~~~~~~~~~~~~~~~~~~~ % %
 if strcmp(method, 'Traditional')
     disp("Using Traditional Method to Find Near Field Cells");
     longitude_array = detector.Longitude{1} - 0.5 - 2: 1 : detector.Longitude{1} + 0.5 + 2;
@@ -26,6 +51,8 @@ elseif strcmp(method, "Nearest")
     distance_sort = sort(distance);
     near_field.index = knnsearch(distance, distance_sort(1: 24));
 end
-%%% Assign Near Field
+
+% % ~~~~~~~~~~~~~~~~~~~~ Assign Near Field ~~~~~~~~~~~~~~~~~~~~ % %
 Geology.Lithosphere.Model.Logical.Near_Field = ismember(GeoPhys.latlon, GeoPhys.latlon(near_field.index, :), 'rows');
+
 end

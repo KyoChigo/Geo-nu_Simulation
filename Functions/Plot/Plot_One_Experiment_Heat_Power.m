@@ -1,4 +1,20 @@
-function Plot_One_Experiment_Signal(file_path)
+function Plot_One_Experiment_Heat_Power(file_path)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Plot_One_Experiment_Heat_Power.m
+% Description     : Get statistical results
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - file_path   : Path to file
+%
+% Physical Units:
+%   - Heat Power  : TW
+%
+% Created On      : 2025-04-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Res = load(file_path);
 [~, name, ~] = fileparts(file_path);

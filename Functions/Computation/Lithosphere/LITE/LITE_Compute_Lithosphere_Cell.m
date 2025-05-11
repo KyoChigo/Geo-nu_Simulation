@@ -2,30 +2,50 @@ function [TOTAL_MASS, MASS_U, MASS_TH,  SIGNAL_U, SIGNAL_TH, PRESSURE_TO_LAYER].
     = LITE_Compute_Lithosphere_Cell(index, iteration, name_model, name_layer,...
     last_layer_pressure, detector, cor_array, array_for_radius, array_for_mass, array_for_abundance,...
     array_for_signal)
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-% index                 : index of the cell
-% iteration             : iteration
-% name_model            : name of the lithosphere mode
-% name_layer            : name of the layer
-% last_layer_pressure   : pressure comes from above layers, using to apply pressure correction
-% cor_array             : variables about correlation coefficients
-% array_for_radius      : variables for computing depth, thickness, volume
-% array_for_mass        : varaibles for computing density, rock mass
-% array_for_abundace    : variables for computing abundence of HPEs
-% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : LITE_Compute_Lithosphere_Cell.m
+% Description     : Compute interests
+%
+% Original Author : Abund_And_Flux() by Scott A. Wipperfurth
+% Modified by     : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Modified
+%
+% Input Parameters:
+%   - index                 : Index of the grid cell
+%   - iteration             : -
+%   - name_model            : Name of lithospherical model
+%   - name_layer            : Name of layer
+%   - laster_layer_pressure : Pressure from last layer
+%   - detector              : Informaiton of the detector
+%   - cor_array             : Structure of correlation coefficients
+%   - array_for_radius      : Variables used for radius calculation
+%   - array_for_mass        : Variables used for mass calculation
+%   - array_for_abudance    : Variables used for abudance calculation
+%   - array_for_signal      : Variables used for signal rate calculation
+%   - array_for_flux        : Variables used for flux calculation
+%
+% Output Parameters:
+%   - TOTAL_MASS (kg)                : Total rock mass
+%   - MASS_U     (kg)                : Total uranium mass
+%   - MASS_TH    (kg)                : Total thorium mass
+%   - SIGNAL_U   (TNU)               : Signal rate from uranium
+%   - SIGNAL_TH  (TNU)               : Signal rate from thorium
+%   - PRESSURE_TO_LAYER (MPa)        : Total pressure to next layer
+%
+% Physical Units:
+%   - radius        : m
+%   - mass          : kg
+%   - abundance     : g/g
+%   - THICKNESS     : m
+%   - DEPTH         : m
+%   - DENSITY       : kg/m^3
+%   - TEMPERATURE   : ℃
+%
+% Created On      : 2025-03-18
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Output ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Unit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
-% radius: m
-% mass: kg
-% abundance: g/g
-% THICKNESS: m
-% DEPTH: m
-% DENSITY: kg/m^3
-% TEMPERATURE: ℃
-
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 判断 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+% ~~~~~~~~~~~~~~~~~~~~~~ Thickness Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 thickness_mean = array_for_radius(1); % Unit: m; single value %
 if thickness_mean <= 0 | strcmp('LM_OC', name_layer) == 1
     template = zeros(1, iteration);
@@ -58,9 +78,9 @@ else
     % % Clear Variables % %
     clear error;
 end
-% % 负项归零 % %
+% % Make Negative Values to Zero % %
 THICKNESS(THICKNESS < 0) = 0;
-THICKNESS = THICKNESS'; % 转化成行矢量 %
+THICKNESS = THICKNESS'; % Convert to row vector %
 % % Clear Variables % %
 clear cor temp_int uncertainty;
 
@@ -72,7 +92,7 @@ depth_mean = array_for_radius(3); % Unit: m; single value %
 error = uncertainty * depth_mean; % Unit: m %
 DEPTH = Generate_Random_Normal(depth_mean, error, 0, cor); % Unit: m; column vector %
 DEPTH(DEPTH < 0) = 0;
-DEPTH = DEPTH'; % 转换成行矢量 %
+DEPTH = DEPTH'; % Convert to row vector %
 % % Clear Variables % %
 clear cor uncertainty depth_mean error;
 
@@ -91,7 +111,7 @@ density_mean = array_for_mass(1); % Unit: kg/m^3; single value %
 error = uncertainty * density_mean;
 DENSITY = Generate_Random_Normal(density_mean, error, 0, cor); % column vector %
 DENSITY(DENSITY < 0) = 0;
-DENSITY = DENSITY'; % 转换成行矢量 %
+DENSITY = DENSITY'; % Convert to row vector %
 % % Clear Variables % %
 clear cor uncertainty density_mean error;
 
@@ -127,9 +147,9 @@ clear DEPTH;
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Pressure ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 PRESSURE = 0; % Unit: MPa %
 pressure_this_layer = DENSITY .* THICKNESS .* 9.80665 * 1e-6; % kg/m^3 * m * m/s^2 = kg/(m s^2); Pa = kg/(m s^2) %
-% % 这层产生的压强 % %
-PRESSURE = 0.5 * pressure_this_layer + last_layer_pressure; % 用来压强修正；Row vector %
-PRESSURE_TO_LAYER = pressure_this_layer + last_layer_pressure; % 这层的总压强 %
+% % The Pressure of this grid cell % %
+PRESSURE = 0.5 * pressure_this_layer + last_layer_pressure; % Used in pressure correction; row vector %
+PRESSURE_TO_LAYER = pressure_this_layer + last_layer_pressure; % Total pressure to next layer %
 % % Clear Variables % %
 clear pressure_this_layer;
 clear THICKNESS;
@@ -161,7 +181,7 @@ if strcmp(name_layer, 'MC_CC') || strcmp(name_layer, 'LC_CC')
             vp_f = Generate_Random_Normal(6.52, 0.19, 0, cor_end); % Column vector %
             vp_m = Generate_Random_Normal(7.21, 0.20, 0, cor_end); % Column vector %
         end
-% % % % 转化成行矢量 % % % % 
+% % % % Convert to row vector % % % % 
         vp_layer = vp_layer'; % Row vector %
         vp_f = vp_f'; % Row vector %
         vp_m = vp_m'; % Row vector %
@@ -171,18 +191,18 @@ if strcmp(name_layer, 'MC_CC') || strcmp(name_layer, 'LC_CC')
         mafic_U = mafic_U'; % Row vector %
         mafic_Th = mafic_Th'; % Row vector %
         mafic_K = mafic_K'; % Row vector %
-% % % % 温度修正 % % % %
+% % % % Temperature Correction % % % %
         vp_f = vp_f - (TEMPERATURE - 20) * 4 * 1e-4; 
         vp_m = vp_m - (TEMPERATURE - 20) * 4 * 1e-4;
-% % % % 压强修正 % % % %
+% % % % Pressure Correction % % % %
         vp_f = vp_f + (PRESSURE - 600) * 2 * 1e-4;
         vp_m = vp_m + (PRESSURE - 600) * 2 * 1e-4;
-% % % % 计算felsic的比例 % % % %
+% % % % Calculation Fraction of Flesic % % % %
         fraction = (vp_layer - vp_m) ./ (vp_f - vp_m); % Row vector %
         fraction(fraction < 0) = 0;
         fraction(fraction > 1) = 1;
-% % % % 计算丰度 % % % % 
-        K_Ratio = array_for_abundance{9}; % K40的自然丰度 %
+% % % % Compute Abundance % % % % 
+        K_Ratio = array_for_abundance{9}; % Natural abundance of K40 %
         ABUNDANCE_U = Abundance_Huang(felsic_U, mafic_U, fraction); % Row vector %
         ABUNDANCE_TH = Abundance_Huang(felsic_Th, mafic_Th, fraction); % Row vector %
         ABUNDANCE_K = Abundance_Huang(felsic_K, mafic_K, fraction) ./ K_Ratio; % Row vector %
@@ -197,7 +217,7 @@ clear cor_end vp_f vp_m fraction K_Ratio;
         u_fit_par = array_for_abundance{4};
         th_fit_par = array_for_abundance{5};
         k20_fit_par = array_for_abundance{6};
-        K_K20 = array_for_abundance{7}; % K在K2O的质量分数，0.83
+        K_K20 = array_for_abundance{7}; % Mass fraction of K in K2O, which is 0.83 %
         temperature = TEMPERATURE';
         pressure = PRESSURE';
         center_vp = bsxfun(@plus, center_vp,((temperature-20)*-4*10^-4 + (pressure/10^6-600)*2*10^-4));
@@ -216,7 +236,7 @@ clear PRESSURE TEMPERATURE;
 % % Compute Abundance in other layers % %
 else
     cor = cor_array{3}; % abundance; column vector %
-    cor = cor'; % 转换成行矢量 %
+    cor = cor'; % Convert to row vector %
     U_mean = array_for_abundance{1};
     U_P_error = array_for_abundance{2};
     U_N_error = array_for_abundance{3};
@@ -226,7 +246,7 @@ else
     K_mean = array_for_abundance{7};
     K_P_error = array_for_abundance{8};
     K_N_error = array_for_abundance{9};
-% % % 计算丰度 % % %
+% % % Compute Abundance % % %
     if U_P_error == U_N_error
         ABUNDANCE_U = Generate_Random_Normal(U_mean, U_P_error, 0, cor);
         ABUNDANCE_TH = Generate_Random_Normal(Th_mean, Th_P_error, 0, cor);

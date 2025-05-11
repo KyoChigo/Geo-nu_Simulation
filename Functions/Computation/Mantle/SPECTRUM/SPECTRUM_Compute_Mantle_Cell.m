@@ -1,4 +1,38 @@
 function [SPECTRUM_U_DM, SPECTRUM_TH_DM, SPECTRUM_U_EM, SPECTRUM_TH_EM] = SPECTRUM_Compute_Mantle_Cell(index, array_for_mass, array_for_abundance, array_for_signal, detector)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : SPECTRUM_Compute_Mantle_Cell.m
+% Description     : Compute interests
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - index                 : Index of the grid cell
+%   - detector              : Informaiton of the detector
+%   - cor_array             : Structure of correlation coefficients
+%   - array_for_radius      : Variables used for radius calculation
+%   - array_for_mass        : Variables used for mass calculation
+%   - array_for_abudance    : Variables used for abudance calculation
+%   - array_for_signal      : Variables used for signal rate calculation
+%
+% Output Parameters:
+%   - SPECTRUM_U_DM     (TNU/MeV)    : Total uranium spectrum in DM
+%   - SPECTRUM_TH_DM    (TNU/MeV)    : Total thorium spectrum in DM
+%   - SPECTRUM_U_EM     (TNU/MeV)    : Total uranium spectrum in EM
+%   - SPECTRUM_TH_EM    (TNU/MeV)    : Total thorium spectrum in EM
+%
+% Physical Units:
+%   - radius        : m
+%   - mass          : kg
+%   - abundance     : g/g
+%   - thickness     : m
+%   - depth         : m
+%   - DENSITY       : kg/m^3
+%
+% Created On      : 2025-03-28
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~ Depth of all 1 km Layers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 LAB = array_for_mass{1};
 CMB_depth = 2891 * 1e3; % Unit: m, Core-Mantle Boundary (CMB) %

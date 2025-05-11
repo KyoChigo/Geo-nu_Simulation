@@ -1,3 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : LITE_Record_Lithosphere_Results.m
+% Description     : Record results
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Physical Units:
+%   - mass          : kg
+%   - signal rate   : TNU
+%
+% Created On      : 2025-03-18
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Each Layer ~~~~~~~~~~~~~~~~~~~~ %
 Output.Lithosphere.Mass.(name_layer).Total = sum(total_mass, 1)';
 Output.Lithosphere.Mass.(name_layer).U = sum(mass_u, 1)';

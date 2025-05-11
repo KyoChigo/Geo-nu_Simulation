@@ -1,3 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : SPECTRUM_Record_Mantle_Results.m
+% Description     : Record results
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Physical Units:
+%   - mass          : kg
+%   - signal rate   : TNU
+%   - spectrum      : TNU/MeV
+%
+% Created On      : 2025-03-26
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Record ~~~~~~~~~~~~~~~~~~~~ %
 Output.Mantle.Geonu_Spectrum.Depleted.U238 = spectrum_u_dm;
 Output.Mantle.Geonu_Spectrum.Depleted.Th232 = spectrum_th_dm;

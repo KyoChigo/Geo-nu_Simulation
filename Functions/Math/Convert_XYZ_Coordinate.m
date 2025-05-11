@@ -1,8 +1,26 @@
 function [output] = Convert_XYZ_Coordinate(lon, lat, radius)
-
-% longitude (degree)
-% latitude (degree)
-% radius (metter);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Convert_XYZ_Coordinate.m
+% Description     : Convert to xyz position
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - lon         : Longitude
+%   - lat         : Latitude
+%   - radius      : Radius
+%
+% Output Parameters:
+%   - output      : XYZ position
+%
+% Physical Units:
+%   - longitude   : degree
+%   - latitude    : degree
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Positive z-axis goes through North pole
 % Positive x-axis goes through point (longitude = 0, latitude = 0)
