@@ -34,6 +34,6 @@ if nargin == 4
 elseif nargin == 5
     output_array = exp( correlation .* log_sigma + log_mean);
 else
-    disp('[Generate_Random_Log_Normal] Something wrong! Please check the inputs');
+    disp('[Generate_Random_Log_Normal] Something wrong! Please check the inputs.');
 end
 end

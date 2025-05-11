@@ -26,5 +26,5 @@ if nargin == 3
 elseif nargin == 4
     output_array = correlation .* sigma_array + mean_array;
 else
-    disp('[Generate_Random_Normal] 输入参数有误');
+    disp('[Generate_Random_Normal] Something wrong! Please check the inputs.');
 end
