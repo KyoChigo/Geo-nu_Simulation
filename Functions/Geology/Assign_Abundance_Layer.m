@@ -1,8 +1,28 @@
 function Geology = Assign_Abundance_Layer(Geology, Name_Layer, abund_U, abund_Th, abund_K)
-% ~~~~~~~~~~~~~~~~~~~~ Assigna Abudance of Layers ~~~~~~~~~~~~~~~~~~~~ %
-% Abundance             : g/g                                          %
-% 指定U、Th和K的丰度；注意K包括所有K元素而非K40                           %
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Assign_Abundance_Layer.m
+% Description     : Assign abundance to layers
+%
+% Adapted from    : Main code in old GEONU
+% Adapted by      : Shuai Ouyang
+% Institution     : Shandong Univeristy
+% Classification  : Adapted
+%
+% Input Parameters:
+%   - Geology     : Geology data structure
+%   - Name_Layer  : Name of the layer
+%   - abund_U     : Abundance of uranium
+%   - abund_Th    : Abundance of thorium
+%   - abund_K     : Abundance of potassium
+%
+% Output Parameters:
+%   - Geology     : Geology data structure
+%
+% Physical Units:
+%   - Abundance   : g/g
+%
+% Creation Date   : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % % ~~~~~~~~~~~~~~~~~~~~ OC and CC Index ~~~~~~~~~~~~~~~~~~~~ % %
 logical_oc = Geology.Lithosphere.Model.Logical.OC;
@@ -16,10 +36,10 @@ if strcmp(Name_Layer, 'OC')
         layer = layers{i};
         for j = 1 : length(logical_cc)
             if(logical_oc(j) == true)
-            Geology.Lithosphere.Model.Abundance.(layer).U(j, :) = abund_U;
-            Geology.Lithosphere.Model.Abundance.(layer).Th(j, :) = abund_Th;
-            Geology.Lithosphere.Model.Abundance.(layer).K(j, :) = abund_K;
-        end
+                Geology.Lithosphere.Model.Abundance.(layer).U(j, :) = abund_U;
+                Geology.Lithosphere.Model.Abundance.(layer).Th(j, :) = abund_Th;
+                Geology.Lithosphere.Model.Abundance.(layer).K(j, :) = abund_K;
+            end
         end
     end
 % % ~~~~~~~~~~~~~~~~~~~~ CC in UC ~~~~~~~~~~~~~~~~~~~~ % %

@@ -1,3 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : ADVANCE_Record_Mantle_Results.m
+% Description     : Record results
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Physical Units:
+%   - mass          : kg
+%   - signal rate   : TNU
+%   - geonu flux    : cm^{-2} s^{-1}
+%   - heat power    : TW
+%
+% Created On      : 2025-04-03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Record ~~~~~~~~~~~~~~~~~~~~ %
 % % ~~~~~~~~~~~~~~~~~~~~ Signal ~~~~~~~~~~~~~~~~~~~~ % %
 Output.Mantle.Geonu_Signal.Depleted.U238 = sum(signal_u_dm, 1)';

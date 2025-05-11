@@ -1,3 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : ADVANCE_Clear_Template_Variables.m
+% Description     : Clear variables after computation
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Created On      : 2025-04-03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clear LAB lonlat surface_radius PREM;
 clear detector Sig_Res_U238 Sig_Res_Th232 Flux_Res_U238 Flux_Res_Th232;
 clear energy p1 p2 p3 m21 m31 m32;

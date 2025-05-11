@@ -1,4 +1,24 @@
 function [DISTANCE] = APPLICATION_Compute_Distance(index, detector, array_for_radius, array_for_mass)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : APPLICATION_Compute_Distance.m
+% Description     : Compute distance between the grid cell and detector
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - index                 : Index of the grid cell
+%   - detector              : Information of the detector
+%   - array_for_radius      : Variables for radius computation
+%   - array_for_mass        : Variables for mass computation
+%
+% Output Parameters:
+%   - DISTANCE   (m)        : Distance
+%
+% Created On      : 2025-04-14
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Compute Distance ~~~~~~~~~~~~~~~~~~~~ %
 lon_center = array_for_mass(2);
 lat_center = array_for_mass(3);

@@ -1,5 +1,22 @@
 function Geology = Assign_OC_CC(Geology)
-% ~~~~~~~~~~~~~~~~~~~~ Assign OC and CC ~~~~~~~~~~~~~~~~~~~~ %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Assign_OC_CC.m
+% Description     : Assign OC and CC type
+%
+% Adapted from    : Main code in old GEONU
+% Adapted by      : Shuai Ouyang
+% Institution     : Shandong Univeristy
+% Classification  : Adapted
+%
+% Input Parameters:
+%   - Geology     : Geology data structure
+%
+% Output Parameters:
+%   - Geology     : Geology data structure
+%
+% Creation Date   : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % % ~~~~~~~~~~~~~~~~~~~~ Define Temp Variables ~~~~~~~~~~~~~~~~~~~~ % %
 model_name = Geology.Lithosphere.Model.Name;
 GeoPhys = Geology.Lithosphere.Model.GeoPhys;

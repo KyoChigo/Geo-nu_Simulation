@@ -1,9 +1,23 @@
 function output = Compute_Relative_Abundance_Mass(Physics, Name_Element)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% 利用mole丰度计算质量丰度 %%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%% Mass: amu %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Compute_Relative_Abundance_Mass.m
+% Description     : Compute relative mass abundance
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - Physics     : Physics data structure
+%
+% Output Parameters:
+%   - output      : Abundance
+%
+% Physical Units:
+%   - mass        : amu
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Mass = Physics.Elements.Mass;
 Abundance = Physics.Elements.Abundance.Mole;

@@ -1,4 +1,39 @@
 function [SIGNAL_U_DM, SIGNAL_TH_DM, SIGNAL_U_EM, SIGNAL_TH_EM] = LITE_Compute_Mantle_Cell(index, detector, array_for_mass, array_for_abundance, array_for_signal)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : LITE_Compute_Mantle_Cell.m
+% Description     : Compute interests
+%
+% Original Author : mantleGeo() by old GEONU
+% Modified by     : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Modified
+%
+% Input Parameters:
+%   - index                 : Index of the grid cell
+%   - detector              : Informaiton of the detector
+%   - cor_array             : Structure of correlation coefficients
+%   - array_for_radius      : Variables used for radius calculation
+%   - array_for_mass        : Variables used for mass calculation
+%   - array_for_abudance    : Variables used for abudance calculation
+%   - array_for_signal      : Variables used for signal rate calculation
+%
+% Output Parameters:
+%   - SIGNAL_U_DM   (TNU)               : Signal rate from uranium in DM
+%   - SIGNAL_TH_DM  (TNU)               : Signal rate from thorium in DM
+%   - SIGNAL_U_EM   (TNU)               : Signal rate from uranium in EM
+%   - SIGNAL_TH_EM  (TNU)               : Signal rate from thorium in EM
+%
+% Physical Units:
+%   - radius        : m
+%   - mass          : kg
+%   - abundance     : g/g
+%   - thickness     : m
+%   - depth         : m
+%   - DENSITY       : kg/m^3
+%
+% Created On      : 2025-03-19
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~ Depth of all 1 km Layers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 LAB = array_for_mass{1};
 CMB_depth = 2891 * 1e3; % Unit: m, Core-Mantle Boundary (CMB) %

@@ -1,4 +1,26 @@
 function Physics = Load_Geonu_Spectrum(Physics)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Load_Geonu_Spectrum.m
+% Description     : Load geonu spectrum
+%
+% Original Author : Main code in old GEONU
+% Modified by     : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Modified
+%
+% Input Parameters:
+%   - Physics     : Physics data structure
+%
+% Output Parameters:
+%   - Physics     : Physics data structure
+%
+% Physical Units:
+%   - energy      : MeV
+%   - spectrum    : 1/MeV
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Load Geonu Spectrum ~~~~~~~~~~~~~~~~~~~~ %
 method = Physics.Elements.Spectrum.Method;
 if strcmp(method, 'Enomoto')

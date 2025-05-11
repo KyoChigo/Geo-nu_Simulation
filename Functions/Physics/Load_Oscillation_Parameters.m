@@ -1,4 +1,25 @@
 function Physics = Load_Oscillation_Parameters(Physics)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Load_Oscillation_Parameters.m
+% Description     : Load oscillation parameters
+%
+% Original Author : Main code in old GEONU
+% Modified by     : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Modified
+%
+% Input Parameters:
+%   - Physics     : Physics data structure
+%
+% Output Parameters:
+%   - Physics     : Physics data structure
+%
+% Physical Units:
+%   - delta m square  : eV^2
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Load Oscillation Parameters ~~~~~~~~~~~~~~~~~~~~ %
 Constant = Physics.Oscillation.Constant;
 % % Constant == 0: randomly generate oscillation parameters % %

@@ -1,3 +1,28 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Structure_Physics.m
+% Description     : Define data structure of Physics
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Physical Units  :
+%   - Delta m square       : eV^2
+%   - Half-life            : s
+%   - Decay Rate           : 1/s
+%   - Mass                 : amu
+%   - Energy               : MeV
+%   - Spectrum             : 1/MeV
+%   - IBD Cross Section    : cm^2
+%   - Signal Response      : m^2 kg^{-1} MeV^{-1}
+%   - Flux Response        : m^2 kg^{-1}
+%   - Heat Power per Mass  : W/kg
+%   - Radius               : m
+%   - Depth                : m
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Oscillation ~~~~~~~~~~~~~~~~~~~~ %
 % % Oscillation.Constant % %
 Physics.Oscillation.Constant = 1; % Bool %

@@ -1,5 +1,21 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Structure_Output.m
+% Description     : Define data structure of Output
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Physical Units  :
+%   - Signal Rate       : TNU
+%   - Geonu Flux        : cm^{-2}s^{-1}
+%   - Radiogenic Power  : TW
+%
+% Created On      : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Lithosphere ~~~~~~~~~~~~~~~~~~~~ %
-% % Heat Power, Geonu Flux and Geonu Signal % %
+% % Radiogenic Power, Geonu Flux and Geonu Signal % %
 Interests_fields = {'Geonu_Flux', 'Geonu_Signal', 'Geonu_Spectrum'};
 Layers = {'s1', 's2', 's3', 'UC', 'MC', 'LC', 'LM', 'Total'};
 Items_fields = {'Total', 'U238', 'Th232', 'K40'};
@@ -47,7 +63,7 @@ for ii1 = 1 : length(Interests_fields)
     end
 end
 
-% % Heat Power % %
+% % Radiogenic Power % %
 Interests_fields = {'Heat_Power'};
 Layers = {'Depleted', 'Enriched', 'Total'};
 Items_fields = {'Total', 'U', 'Th', 'K'};

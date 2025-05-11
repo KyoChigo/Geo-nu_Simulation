@@ -1,7 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : LITE_Generate_Temp_Variables_for_Parallel.m
+% Description     : Define variables used in computation
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Created On      : 2025-04-03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Temp Variables ~~~~~~~~~~~~~~~~~~~~ %
 GeoPhys = Geology.Lithosphere.Model.GeoPhys;
 LAB = GeoPhys.LAB;
-lonlat = GeoPhys.latlon; % 64800 * 2; log : lat
+lonlat = GeoPhys.latlon; % 64800 * 2; log : lat %
 surface_radius = GeoPhys.r;
 PREM = Geology.Mantle.PREM;
 detector = Physics.Detector;

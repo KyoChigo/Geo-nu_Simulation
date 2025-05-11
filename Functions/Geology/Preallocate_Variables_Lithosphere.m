@@ -1,4 +1,22 @@
 function Geology = Preallocate_Variables_Lithosphere(Geology)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Preallocate_Variables_Lithosphere.m
+% Description     : Preallocate variables
+%
+% Adapted from    : Main code in old GEONU
+% Adapted by      : Shuai Ouyang
+% Institution     : Shandong Univeristy
+% Classification  : Adapted
+%
+% Input Parameters:
+%   - Geology     : Geology data structure
+%
+% Output Parameters:
+%   - Geology     : Geology data structure
+%
+% Creation Date   : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Preallocate Variables ~~~~~~~~~~~~~~~~~~~~ %
 layers = {'UC', 'MC', 'LC', 'LM', 's1', 's2', 's3'};
 len_layer = length(layers);

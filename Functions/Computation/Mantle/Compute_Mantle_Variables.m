@@ -1,3 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Compute_Mantle_Variables.m
+% Description     : Compute variables used in mantle computation
+%
+% Original Author : main code by old GEONU
+% Modified by     : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Modified
+%
+%
+% Physical Units:
+%   - mass          : kg
+%   - abundance     : g/g
+%
+% Created On      : 2025-03-20
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Mass ~~~~~~~~~~~~~~~~~~~~ %
 earth_mass = Generate_Random_Normal(5.97218e24, 6e19, iteration);
 x = 1.835e24 + 9.675e22; % Unit: kg; Mass of inner and outer core %

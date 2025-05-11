@@ -1,6 +1,49 @@
 function [MASS_U_DM, MASS_TH_DM, MASS_U_EM, MASS_TH_EM,...
     SIGNAL_U_DM, SIGNAL_TH_DM, SIGNAL_U_EM, SIGNAL_TH_EM,...
     FLUX_U_DM, FLUX_TH_DM, FLUX_U_EM, FLUX_TH_EM] = ADVANCE_Compute_Mantle_Cell(index, detector, array_for_mass, array_for_abundance, array_for_signal, array_for_flux)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : ADVANCE_Compute_Mantle_Cell.m
+% Description     : Compute interests
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Input Parameters:
+%   - index                 : Index of the grid cell
+%   - detector              : Informaiton of the detector
+%   - cor_array             : Structure of correlation coefficients
+%   - array_for_radius      : Variables used for radius calculation
+%   - array_for_mass        : Variables used for mass calculation
+%   - array_for_abudance    : Variables used for abudance calculation
+%   - array_for_signal      : Variables used for signal rate calculation
+%   - array_for_flux        : Variables used for flux calculation
+%
+% Output Parameters:
+%   - MASS_U_DM     (kg)                : Total uranium mass in DM
+%   - MASS_TH_DM    (kg)                : Total thorium mass in DM
+%   - MASS_U_EM     (kg)                : Total uranium mass in EM
+%   - MASS_TH_EM    (kg)                : Total thorium mass in EM
+%   - SIGNAL_U_DM   (TNU)               : Signal rate from uranium in DM
+%   - SIGNAL_TH_DM  (TNU)               : Signal rate from thorium in DM
+%   - SIGNAL_U_EM   (TNU)               : Signal rate from uranium in EM
+%   - SIGNAL_TH_EM  (TNU)               : Signal rate from thorium in EM
+%   - FLUX_U_DM     (cm^{-2} s^{-1})    : Geonu flux from urainum in DM
+%   - FLUX_TH_DM    (cm^{-2} s^{-1})    : Geonu flux from thorium in DM
+%   - FLUX_U_EM     (cm^{-2} s^{-1})    : Geonu flux from urainum in EM
+%   - FLUX_TH_EM    (cm^{-2} s^{-1})    : Geonu flux from thorium in EM
+%
+% Physical Units:
+%   - radius        : m
+%   - mass          : kg
+%   - abundance     : g/g
+%   - thickness     : m
+%   - depth         : m
+%   - DENSITY       : kg/m^3
+%
+% Created On      : 2025-04-03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~ Depth of all 1 km Layers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
 LAB = array_for_mass{1};
 CMB_depth = 2891 * 1e3; % Unit: m, Core-Mantle Boundary (CMB) %

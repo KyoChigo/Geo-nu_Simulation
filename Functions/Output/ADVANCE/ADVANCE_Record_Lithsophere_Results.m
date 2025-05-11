@@ -1,3 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : ADVANCE_Record_Lithosphere_Results.m
+% Description     : Record results
+%
+% Original Author : Shuai Ouyang
+% Institution     : Shandong University, CN
+% Classification  : Original
+%
+% Physical Units:
+%   - mass          : kg
+%   - signal rate   : TNU
+%   - geonu flux    : cm^{-2} s^{-1}
+%   - heat power    : TW
+%
+% Created On      : 2025-04-03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Each Layer ~~~~~~~~~~~~~~~~~~~~ %
 Output.Lithosphere.Mass.(name_layer).U = sum(mass_u, 1)';
 Output.Lithosphere.Mass.(name_layer).Th = sum(mass_th, 1)';

@@ -1,8 +1,26 @@
 function Geology = Generate_Correlations(Geology)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File Name       : Generate_Correlations.m
+% Description     : Generate random correlation coefficients
+%
+% Adapted from    : Main code in old GEONU
+% Adapted by      : Shuai Ouyang
+% Institution     : Shandong Univeristy
+% Classification  : Adapted
+%
+% Input Parameters:
+%   - Geology     : Geology data structure
+%
+% Output Parameters:
+%   - Geology     : Geology data structure
+%
+% Creation Date   : 2024-11-08
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % ~~~~~~~~~~~~~~~~~~~~ Generate Correlations ~~~~~~~~~~~~~~~~~~~~ %
 iteration = Geology.Iteration;
 % % ~~~~~~~~~~~~~~~~~~~~ Lithosphere ~~~~~~~~~~~~~~~~~~~~ %
-randoms = Generate_Random_Standard_Normal(iteration); % 所有层数厚度的关联系数都一样 %
+randoms = Generate_Random_Standard_Normal(iteration); % All layers use same correlation %
 layers = {'s1', 's2', 's3', 'UC', 'MC', 'LC', 'LM'};
 for i = 1:length(layers)
     layer = layers{i};
