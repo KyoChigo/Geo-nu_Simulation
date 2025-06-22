@@ -144,6 +144,7 @@ Physics.Elements.Geonu_Flux.K = 27.1 * 1e-3 * 1e6; % Unit: 1/(s kg). Calculate b
 Physics.Elements.Geonu_Flux.K40 = 231.2 * 1e6; % Unit: 1/(s kg) %
 
 % ~~~~~~~~~~~~~~~~~~~  Cross_Section ~~~~~~~~~~~~~~~~~~~~ %
+Physics.Cross_Section.Model = '2022';
 Physics.Cross_Section.Energy = 'Compute_Cross_Section()';
 Physics.Cross_Section.IBD = 'Compute_Cross_Section()';
 
@@ -175,7 +176,7 @@ Physics.Detector.Clostest_Cell = [0, 0]; % Unit: degree %
 % ~~~~~~~~~~~~~~~~~~~  Load Physics ~~~~~~~~~~~~~~~~~~~~ %
 Physics = Load_Oscillation_Parameters(Physics);
 Physics = Load_Geonu_Spectrum(Physics);
-Physics = Compute_Cross_Section(Physics);
+Physics = Load_IBD_Cross_Section(Physics);
 Physics = Compute_Geonu_Response(Physics);
 
 % ~~~~~~~~~~~~~~~~~~~~ Output message ~~~~~~~~~~~~~~~~~~~~ %

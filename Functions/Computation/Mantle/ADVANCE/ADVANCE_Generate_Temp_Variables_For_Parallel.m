@@ -12,7 +12,7 @@
 % ~~~~~~~~~~~~~~~~~~~~ Temp Variables ~~~~~~~~~~~~~~~~~~~~ %
 GeoPhys = Geology.Lithosphere.Model.GeoPhys;
 LAB = GeoPhys.LAB;
-lonlat = GeoPhys.latlon; % 64800 * 2; log : lat %
+lonlat = GeoPhys.lonlat; % 64800 * 2; log : lat %
 surface_radius = GeoPhys.r;
 PREM = Geology.Mantle.PREM;
 detector = Physics.Detector;

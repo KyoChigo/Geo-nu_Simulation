@@ -10,7 +10,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % ~~~~~~~~~~~~~~~~~~~~ Temp Variabls ~~~~~~~~~~~~~~~~~~~~ %
-len = length(Geology.Lithosphere.Model.GeoPhys.latlon);
+len = length(Geology.Lithosphere.Model.GeoPhys.lonlat);
 iteration = Geology.Iteration;
 GeoPhys = Geology.Lithosphere.Model.GeoPhys;
 detector = Physics.Detector;
@@ -27,7 +27,7 @@ m31 = Physics.Oscillation.Parameters.delta_m31_square;
 m32 = Physics.Oscillation.Parameters.delta_m32_square;
 array_for_signal = {Sig_Res_U238, Sig_Res_Th232, energy, p1, p2, p3, m21, m31, m32};
 % % ~~~~~~~~~~~~~~~~~~~~ Geometry ~~~~~~~~~~~~~~~~~~~~ %
-lonlat = GeoPhys.latlon; % 64800 * 2; log : lat %
+lonlat = GeoPhys.lonlat; % 64800 * 2; log : lat %
 surface_radius = GeoPhys.r; % 64800 * 1 %
 OC = Geology.Lithosphere.Model.Logical.OC;
 name_model = Geology.Lithosphere.Model.Name;
